@@ -1,0 +1,9 @@
+node_modules
+
+**/*.js
+**/*.js.map
+!webpack.config.js
+
+dist
+
+.vs

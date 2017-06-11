@@ -1,0 +1,18 @@
+{
+  "name": "traktler",
+  "version": "1.0.0",
+  "description": "Trakt.tv scrobbler for multiple sites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch": "webpack -w"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^2.1.0",
+    "typescript": "^2.3.4",
+    "webpack": "^2.6.1"
+  }
+}
