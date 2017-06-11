@@ -1,9 +1,15 @@
 node_modules
 
+# All compiled JS files.
 **/*.js
 **/*.js.map
+
+# Do not ignore configuraiton files.
 !webpack.config.js
+!karma.config.js
 
-dist
+# Ignore all bundled files.
+app/dist
 
+# Visual Studio ignore.
 .vs

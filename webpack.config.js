@@ -6,7 +6,7 @@ module.exports = {
     },
     output: {
         filename: "[name].js",
-        path: path.join(__dirname, "/dist")
+        path: path.join(__dirname, "app/dist")
     },
 
     // Enable sourcemaps for debugging webpack's output.
