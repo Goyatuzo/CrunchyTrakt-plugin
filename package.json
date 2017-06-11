@@ -4,17 +4,26 @@
   "description": "Trakt.tv scrobbler for multiple sites.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "karma start karma.config.js",
     "build": "webpack",
+    "ts-build": "tsc",
     "watch": "webpack -w",
-    "karma": "karma init karma.config.js"
+    "karma": "karma init karma.config.js",
+    "postinstall": "npm run tsc"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/chai": "^4.0.0",
+    "@types/mocha": "^2.2.41",
+    "chai": "^4.0.2",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.1",
+    "karma-fixture": "^0.2.6",
+    "karma-html2js-preprocessor": "^1.1.0",
+    "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-mocha": "^1.3.0",
+    "mocha": "^3.4.2",
     "ts-loader": "^2.1.0",
     "typescript": "^2.3.4",
     "webpack": "^2.6.1"
