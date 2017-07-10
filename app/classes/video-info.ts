@@ -9,6 +9,8 @@ abstract class VideoPage {
     abstract get episodeNumber(): string;
     abstract get episodeTitle(): string;
     abstract get seriesName(): string;
+    abstract get totalTimeInSeconds(): number;
+    abstract get currentTimeInSeconds(): number;
 }
 
 export default VideoPage;

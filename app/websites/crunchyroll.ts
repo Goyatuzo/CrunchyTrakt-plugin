@@ -1,6 +1,6 @@
 import VideoInfo from '../classes/video-info';
 
-class CrunchyRoll extends VideoInfo {
+export default class CrunchyRoll extends VideoInfo {
     constructor() {
         super("http://www.crunchyroll.com/");
     }
@@ -23,7 +23,18 @@ class CrunchyRoll extends VideoInfo {
 
     get seriesName(): string {
         const nameElement: HTMLElement = document.getElementById("showmedia_about_episode_num");
-        console.log(nameElement);
-        return "";
+
+        if (nameElement) {
+            return nameElement.firstElementChild.textContent;
+        }
+
+        throw new Error("No series was found on CrunchyRoll.");
+    }
+
+    get totalTimeInSeconds(): number {
+        throw Error("Not implemented.");
+    }
+    get currentTimeInSeconds(): number {
+        throw Error("Not implemented.");
     }
 }

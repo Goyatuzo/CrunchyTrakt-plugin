@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        "app": "./app/index.ts"
+        "crunchyroll": "./app/pages/crunchyroll.ts"
     },
     output: {
         filename: "[name].js",
