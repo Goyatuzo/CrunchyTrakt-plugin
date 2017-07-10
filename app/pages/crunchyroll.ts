@@ -1,4 +1,7 @@
 import CrunchyRoll from "../websites/crunchyroll";
+import TraktWrapper from '../classes/trakt';
 
 var d = new CrunchyRoll();
-console.log(d.seriesName);
+var wrap = new TraktWrapper(d);
+
+wrap.printSeriesName();
