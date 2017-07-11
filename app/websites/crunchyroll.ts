@@ -5,6 +5,9 @@ export default class CrunchyRoll extends VideoInfo {
         super("http://www.crunchyroll.com/");
     }
 
+    /**
+     * This element should contain the text for series name, episode number, and season number.
+     */
     private get seasonAndEpisodeString(): string {
         const element: HTMLElement = document.getElementById("showmedia_about_media");
 
@@ -12,7 +15,6 @@ export default class CrunchyRoll extends VideoInfo {
             return element.lastElementChild.textContent;
         }
 
-        console.error("Cannot find season and episode element.");
         return null;
     }
 
@@ -58,8 +60,7 @@ export default class CrunchyRoll extends VideoInfo {
             return nameElement.textContent;
         }
 
-        console.error("Episode title was not found on CrunchyRoll.");
-        return null
+        return null;
     }
 
     get seriesName(): string {
@@ -69,8 +70,7 @@ export default class CrunchyRoll extends VideoInfo {
             return nameElement.firstElementChild.textContent;
         }
 
-        console.error("No series was found on CrunchyRoll.");
-        return null
+        return null;
     }
 
     get totalTimeInSeconds(): number {
