@@ -1,7 +1,6 @@
 import CrunchyRoll from "../websites/crunchyroll";
 import TraktWrapper from '../classes/trakt';
 
-var d = new CrunchyRoll();
-var wrap = new TraktWrapper(d);
+var wrap = new TraktWrapper(new CrunchyRoll());
 
-wrap.printSeriesName();
+wrap.printVideoInformation();

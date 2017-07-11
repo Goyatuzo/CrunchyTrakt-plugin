@@ -5,20 +5,61 @@ export default class CrunchyRoll extends VideoInfo {
         super("http://www.crunchyroll.com/");
     }
 
-    private get videoInformation(): HTMLElement {
-        return document.getElementById("showmedia_about_media");
+    private get seasonAndEpisodeString(): string {
+        const element: HTMLElement = document.getElementById("showmedia_about_media");
+
+        if (element) {
+            return element.lastElementChild.textContent;
+        }
+
+        console.error("Cannot find season and episode element.");
+        return null;
     }
 
-    get episodeNumber(): string {
-        throw Error("Not implemented.");
+    get episodeNumber(): number {
+        const seasonAndEpisode = this.seasonAndEpisodeString;
+        const tokens = seasonAndEpisode.split(',');
+        let matched: string;
+
+        // If there are 2 tokens, then the second one is the episode number.
+        if (tokens.length > 1) {
+            matched = tokens[1];
+        } else {
+            matched = tokens[0];
+        }
+        const number = matched.match(/\d+\.?\d*|\.\d+/);
+
+        if (number.length > 0) {
+            return parseInt(number[0]);
+        }
+
+        return null;
     }
 
-    get seasonNumber(): string {
-        throw Error("Not implemented.");
+    get seasonNumber(): number {
+        const seasonAndEpisode = this.seasonAndEpisodeString;
+        const tokens = seasonAndEpisode.split(',');
+
+        if (tokens.length > 1) {
+            const number = tokens[0].match(/\d+\.?\d*|\.\d+/);
+
+            if (number.length > 0) {
+                return parseInt(number[0]);
+            }
+        }
+
+        return null;
     }
 
     get episodeTitle(): string {
-        throw Error("Not implemented.");
+        const nameElement: HTMLElement = document.getElementById("showmedia_about_name");
+
+        if (nameElement) {
+            return nameElement.textContent;
+        }
+
+        console.error("Episode title was not found on CrunchyRoll.");
+        return null
     }
 
     get seriesName(): string {
@@ -28,7 +69,8 @@ export default class CrunchyRoll extends VideoInfo {
             return nameElement.firstElementChild.textContent;
         }
 
-        throw new Error("No series was found on CrunchyRoll.");
+        console.error("No series was found on CrunchyRoll.");
+        return null
     }
 
     get totalTimeInSeconds(): number {

@@ -7,7 +7,7 @@ export default class TraktWrapper {
         this.videoInfo = paramInfo;
     }
 
-    printSeriesName(): void {
-        console.log(this.videoInfo.seriesName);
+    printVideoInformation(): void {
+        console.log(`${this.videoInfo.seriesName}: Season: ${this.videoInfo.seasonNumber}, Episode: ${this.videoInfo.episodeNumber}`);
     }
 }
