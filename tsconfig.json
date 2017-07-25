@@ -5,13 +5,7 @@
     "module": "commonjs",
     "target": "es5",
     "jsx": "react",
-    "types": [
-      "mocha",
-      "chai"
-    ],
-    "typeRoots": [
-      "node_modules/@types"
-    ]
+    "moduleResolution": "node"
   },
   "exclude": [
     "node_modules"

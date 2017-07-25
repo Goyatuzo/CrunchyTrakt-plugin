@@ -11,7 +11,5 @@ node_modules
 # Ignore all bundled files.
 app/dist
 
-app/credentials.ts
-
 # Visual Studio ignore.
 .vs
