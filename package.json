@@ -9,7 +9,7 @@
     "ts-build": "tsc",
     "watch": "webpack -w",
     "karma": "karma init karma.config.js",
-    "build-prod": ""
+    "build-prod": "webpack -p"
   },
   "author": "",
   "license": "ISC",

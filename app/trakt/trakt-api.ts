@@ -17,6 +17,8 @@ export default class TraktApi {
             interactive: true
         };
 
+        console.log("AUTHORIZING");
+
         chrome.identity.launchWebAuthFlow(authFlowOpts, responseUrl => {
             const tokenParams: Trakt.GetTokenRequest = {
                 code: this.getCodeFromRedirectUrl(responseUrl),
