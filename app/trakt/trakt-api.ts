@@ -18,16 +18,19 @@ export default class TraktApi {
         };
 
         console.log("AUTHORIZING");
+        console.log(this.videoInfo.seriesName)
+        console.log(this.videoInfo.episodeNumber);
+        console.log(this.videoInfo.episodeTitle);
 
-        chrome.identity.launchWebAuthFlow(authFlowOpts, responseUrl => {
-            const tokenParams: Trakt.GetTokenRequest = {
-                code: this.getCodeFromRedirectUrl(responseUrl),
-                client_id: traktCredentials.clientId,
-                client_secret: traktCredentials.clientSecret,
-                redirect_url: this.redirectUrl,
-                grant_type: "authorization_code"
-            };
-        });
+        // chrome.identity.launchWebAuthFlow(authFlowOpts, responseUrl => {
+        //     const tokenParams: Trakt.GetTokenRequest = {
+        //         code: this.getCodeFromRedirectUrl(responseUrl),
+        //         client_id: traktCredentials.clientId,
+        //         client_secret: traktCredentials.clientSecret,
+        //         redirect_url: this.redirectUrl,
+        //         grant_type: "authorization_code"
+        //     };
+        // });
     }
 
     getCodeFromRedirectUrl(url: string): string {

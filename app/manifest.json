@@ -17,5 +17,15 @@
     "scripts": [
       "dist/crunchyroll.js"
     ]
-  }
+  },
+  "content_scripts": [
+      {
+          "matches": [
+            "*://*.vrv.co/*"
+          ],
+          "js": [
+            "dist/vrv.js"
+          ]
+      }
+  ]
 }

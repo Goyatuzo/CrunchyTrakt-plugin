@@ -1,5 +1,3 @@
-import CrunchyRoll from "../websites/crunchyroll";
-import TraktApi from '../trakt/trakt-api';
+import Crunchyroll from "../websites/crunchyroll";
 
-var t = new TraktApi(new CrunchyRoll());
-t.authorize();
+var crunchy = new Crunchyroll();
