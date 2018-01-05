@@ -46,6 +46,26 @@ abstract class VideoPage {
         this.videoIsPlaying = false;
         this.endTime = new Date(Date.now());
     }
+
+    outputVideoData(): IVideoData {
+        return  {
+                seriesName: this.seriesName,
+                seasonNumber: this.seasonNumber,
+                episodeTitle: this.episodeTitle,
+                episodeNumber: this.episodeNumber,
+                currentTimeInSeconds: this.currentTimeInSeconds,
+                totalTimeInSeconds: this.totalTimeInSeconds
+        };
+    }
 }
 
 export default VideoPage;
+
+export interface IVideoData {
+    seasonNumber: number;
+    episodeNumber: number;
+    episodeTitle: string;
+    seriesName: string;
+    totalTimeInSeconds: number;
+    currentTimeInSeconds: number;
+}

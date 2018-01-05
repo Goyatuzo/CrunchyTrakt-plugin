@@ -1,8 +1,6 @@
 import { IChromeMessage, ChromeMessageType } from "../classes/chrome-message";
 
-
-
-chrome.webNavigation.onHistoryStateUpdated.addListener(details => {
+function sendUpdateRequest() {
     const message: IChromeMessage = {
         type: ChromeMessageType.GET_VIDEO_DATA
     };
@@ -12,4 +10,9 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(details => {
             console.log(response);
         });
     });
+}
+
+chrome.webNavigation.onHistoryStateUpdated.addListener(details => {
+
+    sendUpdateRequest();
 });

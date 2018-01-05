@@ -6,9 +6,7 @@
   "scripts": {
     "test": "karma start karma.config.js",
     "build": "webpack",
-    "ts-build": "tsc",
     "watch": "webpack -w",
-    "karma": "karma init karma.config.js",
     "build-prod": "webpack -p"
   },
   "author": "",

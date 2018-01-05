@@ -1,16 +1,42 @@
 import Vrv from "../websites/vrv";
 import { IChromeMessage, ChromeMessageType } from "../classes/chrome-message";
+import { IVideoData } from "../classes/video-info";
 
 let vrv = new Vrv();
 
 chrome.runtime.onMessage.addListener((message: IChromeMessage, sender, sendResponse) => {
-    console.log("MESSAGE RECEIVED");
     switch (message.type) {
-        case (ChromeMessageType.GET_VIDEO_DATA): {
-            console.log("GET_VIDEO_DATA RECEIVED");
-            console.log(vrv);
+        case ChromeMessageType.GET_VIDEO_DATA: {
 
-            sendResponse(vrv);
+            if (document.readyState === "complete") {
+                sendResponse(vrv.outputVideoData());
+            }
+
+            document.onreadystatechange = () => {
+                if (document.readyState === "complete") {
+                    sendResponse(vrv.outputVideoData());
+
+                    document.onreadystatechange = null;
+                }
+            }
+            console.log(vrv.outputVideoData());
+            break;
+        }
+
+        case ChromeMessageType.GET_CURRENT_TIMESTAMP: {
+            if (document.readyState === "complete") {
+                sendResponse(vrv.currentTimeInSeconds);
+            }
+
+            document.onreadystatechange = () => {
+                if (document.readyState === "complete") {
+                    sendResponse(vrv.currentTimeInSeconds);
+
+                    document.onreadystatechange = null;
+                }
+            }
+
+            break;
         }
     }
 });
