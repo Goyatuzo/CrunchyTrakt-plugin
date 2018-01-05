@@ -4,5 +4,5 @@ export enum ChromeMessageType {
 
 export interface IChromeMessage {
     type: ChromeMessageType,
-    payload: any
+    payload?: any
 }
