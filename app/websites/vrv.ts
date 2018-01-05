@@ -1,6 +1,7 @@
 import VideoInfo from '../classes/video-info';
 
 export default class Vrv extends VideoInfo {
+
     constructor() {
         super("https://www.vrv.co/");
     }
