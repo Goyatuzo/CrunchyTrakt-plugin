@@ -11,11 +11,12 @@
   //},
   "permissions": [
     "activeTab",
+    "webNavigation",
     "https://ajax.googleapis.com/"
   ],
   "background": {
     "scripts": [
-      "dist/crunchyroll.js"
+      "dist/background.js"
     ]
   },
   "content_scripts": [

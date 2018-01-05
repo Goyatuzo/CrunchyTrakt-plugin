@@ -1,8 +1,8 @@
-export enum MessageType {
-    SCROBBLE
+export enum ChromeMessageType {
+    GET_VIDEO_DATA
 };
 
 export interface IChromeMessage {
-    type: MessageType,
+    type: ChromeMessageType,
     payload: any
 }
