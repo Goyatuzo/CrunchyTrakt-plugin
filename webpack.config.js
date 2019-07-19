@@ -5,6 +5,7 @@ module.exports = [
         entry: {
             "vrv": "./app/event-handlers/vrv-events"
         },
+        mode: "development",
         output: {
             filename: "[name].js",
             path: path.join(__dirname, "app/dist")
@@ -19,7 +20,7 @@ module.exports = [
         },
 
         module: {
-            loaders: [
+            rules: [
                 // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
                 { test: /\.ts?$/, loader: "ts-loader" }
             ],
@@ -43,7 +44,7 @@ module.exports = [
         },
 
         module: {
-            loaders: [
+            rules: [
                 // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
                 { test: /\.ts?$/, loader: "ts-loader" }
             ],
