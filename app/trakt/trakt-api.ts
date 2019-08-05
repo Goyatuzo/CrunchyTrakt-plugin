@@ -1,18 +1,18 @@
 import VideoInfo from '../classes/video-info';
-import * as request from 'request';
 import { traktCredentials } from '../credentials';
+import { browser } from 'webextension-polyfill-ts';
 
 export default class TraktApi {
     private videoInfo: VideoInfo;
     private apiRoot: string = "https://api-staging.trakt.tv";
-    private redirectUrl: string = `https://${chrome.runtime.id}.chromiumapp.org`;
+    private redirectUrl: string = `https://${browser.runtime.id}.chromiumapp.org`;
 
     constructor(paramInfo: VideoInfo) {
         this.videoInfo = paramInfo;
     }
 
     authorize() {
-        const authFlowOpts: chrome.identity.WebAuthFlowOptions = {
+        const authFlowOpts = {
             url: `${this.apiRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_Uri=${this.redirectUrl}&response_type=code`,
             interactive: true
         };

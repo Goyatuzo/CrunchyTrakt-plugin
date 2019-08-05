@@ -30,6 +30,7 @@ module.exports = [
         entry: {
             "background": "./app/background"
         },
+        mode: "development",
         output: {
             filename: "[name].js",
             path: path.join(__dirname, "app/dist")

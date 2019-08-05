@@ -31,7 +31,7 @@ export default class Vrv extends VideoInfo {
             const seasonNumber = document.getElementsByClassName("season") as HTMLCollectionOf<HTMLDivElement>;
 
             if (seasonNumber.length > 0) {
-                return parseInt(seasonNumber[0].innerText.replace( /^\D+/g, ''));
+                return parseInt(seasonNumber[0].innerText.replace(/^\D+/g, ''));
             } else {
                 throw Error("Could not find element");
             }
@@ -43,19 +43,14 @@ export default class Vrv extends VideoInfo {
     }
 
     get episodeTitle(): string {
-        try {
-            const episodeTitle = document.getElementsByClassName("title") as HTMLCollectionOf<HTMLDivElement>;
+        const episodeTitle = document.querySelector(".episode-info+h2") as HTMLHeadingElement;
 
-            if (episodeTitle.length > 0) {
-                const tokens = episodeTitle[0].innerText.split("-");
-                return tokens[1].trim();
-            } else {
-                throw Error("Could not find element");
-            }
-        } catch (ex) {
-            // console.error("Trakt-it: Episode Title");
-            // console.error(ex);
-            return "";
+        if (episodeTitle.innerText) {
+            console.log(episodeTitle.innerText)
+            const tokens = episodeTitle.innerText.split("-");
+            return tokens[1].trim();
+        } else {
+            throw Error("Could not find element");
         }
     }
 
