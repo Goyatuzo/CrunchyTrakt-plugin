@@ -9,8 +9,7 @@ browser.runtime.onMessage.addListener((message: IChromeMessage, sender) => {
     console.log("MESSAGE RECEIVED");
     switch (message.type) {
         case ChromeMessageType.GET_VIDEO_DATA: {
-            browser.runtime.sendMessage(null, vrv.episodeTitle);
-            break;
+            return Promise.resolve(vrv.episodeTitle);
         }
 
         case ChromeMessageType.GET_CURRENT_TIMESTAMP: {
