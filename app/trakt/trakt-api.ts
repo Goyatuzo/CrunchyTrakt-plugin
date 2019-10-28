@@ -7,12 +7,14 @@ import { browser } from 'webextension-polyfill-ts';
 export default class TraktApi {
     private videoInfo: VideoInfo;
     private apiRoot: string = API_ROOT;
-    private redirectUrl: string = `https://${browser.runtime.id}.chromiumapp.org`;
+    // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
+    private redirectUrl: string = 'https://27243ddae08af693cee0f2c5c2ee711b4b50e8f5.extensions.allizom.org/';
+
 
     constructor(paramInfo: VideoInfo = null) {
         this.videoInfo = paramInfo;
 
-        console.log(API_ROOT);
+        console.log(browser.identity.getRedirectURL());
     }
 
     authorize() {

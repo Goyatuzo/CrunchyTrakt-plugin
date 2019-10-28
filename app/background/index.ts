@@ -9,8 +9,6 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
         };
         console.log(tabId);
 
-        console.log(new TraktApi());
-
         browser.tabs.query({ active: true }).then(tabs => {
             tabs = tabs.filter(tab => tab.url.indexOf("vrv.co/watch") > 0);
 
