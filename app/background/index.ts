@@ -1,5 +1,6 @@
 import { IChromeMessage, ChromeMessageType } from "../classes/chrome-message";
 import { browser } from 'webextension-polyfill-ts';
+import TraktApi from "../trakt/trakt-api";
 
 browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
     if (changeInfo.status === "complete") {
@@ -7,6 +8,8 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
             type: ChromeMessageType.GET_VIDEO_DATA
         };
         console.log(tabId);
+
+        console.log(new TraktApi());
 
         browser.tabs.query({ active: true }).then(tabs => {
             tabs = tabs.filter(tab => tab.url.indexOf("vrv.co/watch") > 0);

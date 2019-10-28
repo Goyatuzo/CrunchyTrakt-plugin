@@ -1,14 +1,18 @@
+declare const API_ROOT: string;
+
 import VideoInfo from '../classes/video-info';
 import { traktCredentials } from '../credentials';
 import { browser } from 'webextension-polyfill-ts';
 
 export default class TraktApi {
     private videoInfo: VideoInfo;
-    private apiRoot: string = "https://api-staging.trakt.tv";
+    private apiRoot: string = API_ROOT;
     private redirectUrl: string = `https://${browser.runtime.id}.chromiumapp.org`;
 
-    constructor(paramInfo: VideoInfo) {
+    constructor(paramInfo: VideoInfo = null) {
         this.videoInfo = paramInfo;
+
+        console.log(API_ROOT);
     }
 
     authorize() {

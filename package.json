@@ -7,7 +7,7 @@
     "test": "karma start karma.config.js",
     "build": "webpack",
     "watch": "webpack -w",
-    "build-prod": "webpack -p"
+    "build-prod": "NODE_ENV=production webpack -p"
   },
   "author": "",
   "license": "ISC",
