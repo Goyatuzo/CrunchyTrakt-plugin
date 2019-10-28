@@ -5,6 +5,7 @@ import { traktCredentials } from '../credentials';
 import { browser } from 'webextension-polyfill-ts';
 
 export default class TraktApi {
+    private authorizeStarted: boolean = false;
     private videoInfo: VideoInfo;
     private apiRoot: string = API_ROOT;
     // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
@@ -14,26 +15,27 @@ export default class TraktApi {
         this.videoInfo = paramInfo;
     }
 
-    authorize() {
+    async authorize() {
+        if (this.authorizeStarted) return;
+        this.authorizeStarted = true;
+
         const authFlowOpts = {
-            url: `${this.apiRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_Uri=${this.redirectUrl}&response_type=code`,
+            url: `https://trakt.tv/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURI(this.redirectUrl)}&response_type=code`,
             interactive: true
         };
+        let redirectURL = '';
 
-        console.log("AUTHORIZING");
-        console.log(this.videoInfo.seriesName)
-        console.log(this.videoInfo.episodeNumber);
-        console.log(this.videoInfo.episodeTitle);
+        redirectURL = await browser.identity.launchWebAuthFlow(authFlowOpts);
+        
+        const parameters: Trakt.GetTokenRequest = {
+            client_id: traktCredentials.clientId,
+            client_secret: traktCredentials.clientSecret,
+            redirect_url: this.redirectUrl,
+            grant_type: 'authorization_code',
+            code: this.getCodeFromRedirectUrl(redirectURL)
+        }
 
-        // chrome.identity.launchWebAuthFlow(authFlowOpts, responseUrl => {
-        //     const tokenParams: Trakt.GetTokenRequest = {
-        //         code: this.getCodeFromRedirectUrl(responseUrl),
-        //         client_id: traktCredentials.clientId,
-        //         client_secret: traktCredentials.clientSecret,
-        //         redirect_url: this.redirectUrl,
-        //         grant_type: "authorization_code"
-        //     };
-        // });
+        console.log(parameters);
     }
 
     getCodeFromRedirectUrl(url: string): string {

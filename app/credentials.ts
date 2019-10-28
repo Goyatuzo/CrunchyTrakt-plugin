@@ -6,6 +6,6 @@ interface ICredentials {
 
 export var traktCredentials: ICredentials = {
     key: "",
-    clientId: "c4c79b5819a0efe568fea03f6dd8c579758e5878bd3622b3091ec9d39559f1f2",
-    clientSecret: "2f1a5a55b770dc988a9e91efcfd4fe638e341c108cfb0a92e5b7e8a069dd4439"
+    clientId: "a97cb6a83bafcf52aee8748800604a48b603d14ba60d61e0f573ced40276bf22",
+    clientSecret: "0855f1e83b39dbb307d0098d88657489c97f63b6c439851e1c8a58250a3a575f"
 };
