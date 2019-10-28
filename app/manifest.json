@@ -7,7 +7,8 @@
     "activeTab",
     "webNavigation",
     "tabs",
-    "identity"
+    "identity",
+    "https://*.trakt.tv/*"
   ],
   "background": {
     "scripts": [
