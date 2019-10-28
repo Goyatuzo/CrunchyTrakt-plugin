@@ -4,6 +4,7 @@ import axios from 'axios';
 import VideoInfo from '../classes/video-info';
 import { traktCredentials } from '../credentials';
 import { browser } from 'webextension-polyfill-ts';
+import StorageWrap from '../storage';
 
 export default class TraktApi {
     private authorizeStarted: boolean = false;
@@ -49,7 +50,7 @@ export default class TraktApi {
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            console.log(response);
+            StorageWrap.set('trakt-oauth-response', response);
         }).catch(err => {
             console.error(err);
         });

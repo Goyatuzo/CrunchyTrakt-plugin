@@ -8,6 +8,7 @@
     "webNavigation",
     "tabs",
     "identity",
+    "storage",
     "https://*.trakt.tv/*"
   ],
   "background": {
@@ -24,5 +25,10 @@
         "dist/vrv.js"
       ]
     }
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{efc6225c-1b49-4d09-815f-60394c47610b}"
+    }
+  }  
 }
