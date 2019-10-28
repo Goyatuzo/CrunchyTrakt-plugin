@@ -19,9 +19,11 @@ export default class TraktApi {
     async authorize() {
         if (this.authorizeStarted) return;
         this.authorizeStarted = true;
+        
+        const authRoot = this.apiRoot.replace('api-', '');
 
         const authFlowOpts = {
-            url: `${this.apiRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURI(this.redirectUrl)}&response_type=code`,
+            url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURI(this.redirectUrl)}&response_type=code`,
             interactive: true
         };
         let redirectURL = '';
@@ -31,18 +33,16 @@ export default class TraktApi {
         const parameters: Trakt.GetTokenRequest = {
             client_id: traktCredentials.clientId,
             client_secret: traktCredentials.clientSecret,
-            redirect_url: this.redirectUrl,
+            redirect_uri: this.redirectUrl,
             grant_type: 'authorization_code',
             code: this.getCodeFromRedirectUrl(redirectURL)
         }
-
-        console.log(redirectURL);
-        console.log(this.getCodeFromRedirectUrl(redirectURL));
-
+        
         axios.post(`${this.apiRoot}/oauth/token`, parameters, {
             headers: {
                 'trakt-api-key': traktCredentials.clientId,
-                'trakt-api-version': 2
+                'trakt-api-version': 2,
+                'Content-Type': 'application/json'
             }
         }).then(response => {
             console.log(response);
