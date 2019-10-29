@@ -1,16 +1,11 @@
 import { IChromeMessage, ChromeMessageType } from "../classes/chrome-message";
 import { browser } from 'webextension-polyfill-ts';
-import TraktApi from "../trakt/trakt-api";
-
-const api = new TraktApi();
 browser.tabs.onUpdated.addListener((tabId, changeInfo) => {
     if (changeInfo.status === "complete") {
         const message: IChromeMessage = {
             type: ChromeMessageType.GET_VIDEO_DATA
         };
         
-        api.authorize();
-
         browser.tabs.query({ active: true }).then(tabs => {
             tabs = tabs.filter(tab => tab.url.indexOf("vrv.co/watch") > 0);
 

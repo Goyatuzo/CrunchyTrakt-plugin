@@ -8,14 +8,9 @@ import StorageWrap from '../storage';
 
 export class TraktApiHandler {
     private authorizeStarted: boolean = false;
-    private videoInfo: VideoInfo;
     private apiRoot: string = API_ROOT;
     // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
     private redirectUrl: string = 'https://27243ddae08af693cee0f2c5c2ee711b4b50e8f5.extensions.allizom.org/';
-
-    constructor(paramInfo: VideoInfo = null) {
-        this.videoInfo = paramInfo;
-    }
 
     async authorize() {
         if (this.authorizeStarted) return;
@@ -58,10 +53,6 @@ export class TraktApiHandler {
 
     getCodeFromRedirectUrl(url: string): string {
         return url.split("?")[1].split("=")[1];
-    }
-
-    requestToken() {
-
     }
 }
 
