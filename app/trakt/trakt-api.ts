@@ -50,7 +50,7 @@ export default class TraktApi {
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            StorageWrap.set('trakt-oauth-response', response);
+            StorageWrap.set('trakt-oauth-response', response.data);
         }).catch(err => {
             console.error(err);
         });
