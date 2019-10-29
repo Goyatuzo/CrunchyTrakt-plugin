@@ -1,10 +1,13 @@
 declare const API_ROOT: string;
 
+import axios from 'axios';
 import VideoInfo from '../classes/video-info';
 import { traktCredentials } from '../credentials';
 import { browser } from 'webextension-polyfill-ts';
+import StorageWrap from '../storage';
 
 export default class TraktApi {
+    private authorizeStarted: boolean = false;
     private videoInfo: VideoInfo;
     private apiRoot: string = API_ROOT;
     // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
@@ -14,26 +17,43 @@ export default class TraktApi {
         this.videoInfo = paramInfo;
     }
 
-    authorize() {
+    async authorize() {
+        if (this.authorizeStarted) return;
+        this.authorizeStarted = true;
+
+        const authRoot = this.apiRoot.replace('api-', '');
+
         const authFlowOpts = {
-            url: `${this.apiRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_Uri=${this.redirectUrl}&response_type=code`,
+            url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURI(this.redirectUrl)}&response_type=code`,
             interactive: true
         };
+        let redirectURL = '';
 
-        console.log("AUTHORIZING");
-        console.log(this.videoInfo.seriesName)
-        console.log(this.videoInfo.episodeNumber);
-        console.log(this.videoInfo.episodeTitle);
+        try {
+            redirectURL = await browser.identity.launchWebAuthFlow(authFlowOpts);
+        } catch (err) {
+            console.error(err);
+        }
 
-        // chrome.identity.launchWebAuthFlow(authFlowOpts, responseUrl => {
-        //     const tokenParams: Trakt.GetTokenRequest = {
-        //         code: this.getCodeFromRedirectUrl(responseUrl),
-        //         client_id: traktCredentials.clientId,
-        //         client_secret: traktCredentials.clientSecret,
-        //         redirect_url: this.redirectUrl,
-        //         grant_type: "authorization_code"
-        //     };
-        // });
+        const parameters: Trakt.GetTokenRequest = {
+            client_id: traktCredentials.clientId,
+            client_secret: traktCredentials.clientSecret,
+            redirect_uri: this.redirectUrl,
+            grant_type: 'authorization_code',
+            code: this.getCodeFromRedirectUrl(redirectURL)
+        }
+
+        axios.post(`${this.apiRoot}/oauth/token`, parameters, {
+            headers: {
+                'trakt-api-key': traktCredentials.clientId,
+                'trakt-api-version': 2,
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            StorageWrap.set('trakt-oauth-response', response);
+        }).catch(err => {
+            console.error(err);
+        });
     }
 
     getCodeFromRedirectUrl(url: string): string {
