@@ -6,7 +6,7 @@ import { traktCredentials } from '../credentials';
 import { browser } from 'webextension-polyfill-ts';
 import StorageWrap from '../storage';
 
-export default class TraktApi {
+export class TraktApiHandler {
     private authorizeStarted: boolean = false;
     private videoInfo: VideoInfo;
     private apiRoot: string = API_ROOT;
@@ -64,3 +64,7 @@ export default class TraktApi {
 
     }
 }
+
+const TraktApi = new TraktApiHandler();
+
+export default TraktApi; 
