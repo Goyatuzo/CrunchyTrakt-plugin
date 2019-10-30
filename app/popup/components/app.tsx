@@ -32,8 +32,16 @@ export class App extends React.Component<unknown, IAppStateContext> {
     render() {
         return (
             <AppStateContext.Provider value={this.state}>
-                <Login />
-            </AppStateContext.Provider>
+                <div className="panel">
+                    <div className="panel-head">
+                        <Login />
+                    </div>
+
+                    <div className="panel-body">
+                        <p>HELLO</p>
+                    </div>
+                </div>
+            </AppStateContext.Provider >
         )
     }
 }
