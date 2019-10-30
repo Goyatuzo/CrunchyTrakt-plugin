@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
-import LoginButton from './components/login';
+import App from './components/app';
 
-render(<LoginButton />, document.getElementById("app-container"));
+render(<App />, document.getElementById("app-container"));

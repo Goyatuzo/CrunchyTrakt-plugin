@@ -7,14 +7,10 @@ class LoginButton extends React.Component {
     context!: React.ContextType<typeof AppStateContext>;
 
     authorizeOnClick = () => {
-        TraktApi.authorize();
-
-        this.context.loggedIn = true;
+        this.context.login();
     }
     revokeOnClick = () => {
-        TraktApi.revokeToken();
-
-        this.context.loggedIn = false;
+        this.context.logout();
     }
 
 
