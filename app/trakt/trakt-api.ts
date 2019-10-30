@@ -30,29 +30,35 @@ export class TraktApiHandler {
             console.error(err);
         }
 
+        this.getAccessToken(redirectURL);
+    }
+
+    getCodeFromRedirectUrl(url: string): string {
+        return url.split("?")[1].split("=")[1];
+    }
+
+    private async getAccessToken(code: string): Promise<void> {
         const parameters: Trakt.GetTokenRequest = {
             client_id: traktCredentials.clientId,
             client_secret: traktCredentials.clientSecret,
             redirect_uri: this.redirectUrl,
             grant_type: 'authorization_code',
-            code: this.getCodeFromRedirectUrl(redirectURL)
+            code: this.getCodeFromRedirectUrl(code)
         }
+        
+        try {
+            const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, {
+                headers: {
+                    'trakt-api-key': traktCredentials.clientId,
+                    'trakt-api-version': 2,
+                    'Content-Type': 'application/json'
+                }
+            });
 
-        axios.post(`${this.apiRoot}/oauth/token`, parameters, {
-            headers: {
-                'trakt-api-key': traktCredentials.clientId,
-                'trakt-api-version': 2,
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
             StorageWrap.set('trakt-oauth-response', response.data);
-        }).catch(err => {
+        } catch (err) {
             console.error(err);
-        });
-    }
-
-    getCodeFromRedirectUrl(url: string): string {
-        return url.split("?")[1].split("=")[1];
+        }
     }
 }
 
