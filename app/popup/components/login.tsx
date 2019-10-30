@@ -19,9 +19,9 @@ class LoginButton extends React.Component {
             <>
                 {
                     this.context.loggedIn ?
-                        <button type="button" onClick={this.revokeOnClick} > Logout</button>
+                        <button className="button-outlined" type="button" onClick={this.revokeOnClick}>Logout</button>
                         :
-                        <button type="button" onClick={this.authorizeOnClick}>Login</button>
+                        <button className="button-primary" type="button" onClick={this.authorizeOnClick}>Login</button>
                 }
             </>
         )
