@@ -21,6 +21,14 @@ export class StorageWrapper {
     async setTokenData(response: Trakt.GetTokenResponse): Promise<void> {
         return browser.storage.local.set({ [this.tokenResponseKey]: response });
     }
+
+    delete(key: string): Promise<void> {
+        return browser.storage.local.remove(key);
+    }
+
+    async deleteTokenData(): Promise<void> {
+        return await this.delete(this.tokenResponseKey);
+    }
 }
 
 const StorageWrap = new StorageWrapper();

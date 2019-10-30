@@ -18,6 +18,10 @@ export class TraktApiHandler {
         }
     };
 
+    async userLoggedIn(): Promise<boolean> {
+        return await StorageWrap.getTokenData() !== undefined && StorageWrap.getTokenData() !== null;
+    }
+
     /**
      * Initialize the authorization flow, and if applicable, get the token.
      */
@@ -28,13 +32,7 @@ export class TraktApiHandler {
             url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURI(this.redirectUrl)}&response_type=code`,
             interactive: true
         };
-        let redirectURL = '';
-
-        try {
-            redirectURL = await browser.identity.launchWebAuthFlow(authFlowOpts);
-        } catch (err) {
-            console.error(err);
-        }
+        let redirectURL = await browser.identity.launchWebAuthFlow(authFlowOpts);
 
         this.getAccessToken(redirectURL);
     }
@@ -49,13 +47,23 @@ export class TraktApiHandler {
             token: (await StorageWrap.getTokenData()).access_token
         };
 
-        axios.post(`${this.apiRoot}/oauth/revoke`, parameters, this.requestConfig);
+        axios.post(`${this.apiRoot}/oauth/revoke`, parameters, this.requestConfig).then(response => {
+            StorageWrap.deleteTokenData();
+        });
     }
 
-    getCodeFromRedirectUrl(url: string): string {
+    /**
+     * Grab the code from the initial oauth step's redirect URL.
+     * @param url The URL returned from the initial oauth step.
+     */
+    private getCodeFromRedirectUrl(url: string): string {
         return url.split("?")[1].split("=")[1];
     }
 
+    /**
+     * Given the code, post the Trakt API to receive a token.
+     * @param code 
+     */
     private async getAccessToken(code: string): Promise<void> {
         const parameters: Trakt.GetTokenRequest = {
             client_id: traktCredentials.clientId,
@@ -65,13 +73,9 @@ export class TraktApiHandler {
             code: this.getCodeFromRedirectUrl(code)
         }
 
-        try {
-            const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, this.requestConfig);
+        const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, this.requestConfig);
 
-            StorageWrap.setTokenData(response.data);
-        } catch (err) {
-            console.error(err);
-        }
+        StorageWrap.setTokenData(response.data);
     }
 }
 
