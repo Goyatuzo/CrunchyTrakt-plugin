@@ -1,6 +1,6 @@
 declare const API_ROOT: string;
 
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import VideoInfo from '../classes/video-info';
 import { traktCredentials } from '../credentials';
 import { browser } from 'webextension-polyfill-ts';
@@ -10,6 +10,13 @@ export class TraktApiHandler {
     private apiRoot: string = API_ROOT;
     // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
     private redirectUrl: string = 'https://27243ddae08af693cee0f2c5c2ee711b4b50e8f5.extensions.allizom.org/';
+    private requestConfig: AxiosRequestConfig = {
+        headers: {
+            'trakt-api-key': traktCredentials.clientId,
+            'trakt-api-version': 2,
+            'Content-Type': 'application/json'
+        }
+    };
 
     /**
      * Initialize the authorization flow, and if applicable, get the token.
@@ -32,6 +39,19 @@ export class TraktApiHandler {
         this.getAccessToken(redirectURL);
     }
 
+    /**
+     * Revoke a given token
+     */
+    async revokeToken(): Promise<void> {
+        const parameters: Trakt.RevokeTokenRequest = {
+            client_id: traktCredentials.clientId,
+            client_secret: traktCredentials.clientSecret,
+            token: (await StorageWrap.getTokenData()).access_token
+        };
+
+        axios.post(`${this.apiRoot}/oauth/revoke`, parameters, this.requestConfig);
+    }
+
     getCodeFromRedirectUrl(url: string): string {
         return url.split("?")[1].split("=")[1];
     }
@@ -46,25 +66,12 @@ export class TraktApiHandler {
         }
 
         try {
-            const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, {
-                headers: {
-                    'trakt-api-key': traktCredentials.clientId,
-                    'trakt-api-version': 2,
-                    'Content-Type': 'application/json'
-                }
-            });
+            const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, this.requestConfig);
 
             StorageWrap.setTokenData(response.data);
         } catch (err) {
             console.error(err);
         }
-    }
-
-    /**
-     * Revoke a given token
-     */
-    async revokeToken(token: string) {
-
     }
 }
 
