@@ -7,15 +7,14 @@ import { browser } from 'webextension-polyfill-ts';
 import StorageWrap from '../storage';
 
 export class TraktApiHandler {
-    private authorizeStarted: boolean = false;
     private apiRoot: string = API_ROOT;
     // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
     private redirectUrl: string = 'https://27243ddae08af693cee0f2c5c2ee711b4b50e8f5.extensions.allizom.org/';
 
+    /**
+     * Initialize the authorization flow, and if applicable, get the token.
+     */
     async authorize() {
-        if (this.authorizeStarted) return;
-        this.authorizeStarted = true;
-
         const authRoot = this.apiRoot.replace('api-', '');
 
         const authFlowOpts = {
@@ -45,7 +44,7 @@ export class TraktApiHandler {
             grant_type: 'authorization_code',
             code: this.getCodeFromRedirectUrl(code)
         }
-        
+
         try {
             const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, {
                 headers: {
@@ -55,10 +54,17 @@ export class TraktApiHandler {
                 }
             });
 
-            StorageWrap.set('trakt-oauth-response', response.data);
+            StorageWrap.setTokenData(response.data);
         } catch (err) {
             console.error(err);
         }
+    }
+
+    /**
+     * Revoke a given token
+     */
+    async revokeToken(token: string) {
+
     }
 }
 
