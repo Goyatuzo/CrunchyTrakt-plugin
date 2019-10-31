@@ -11,7 +11,7 @@
     "storage",
     "https://*.trakt.tv/*"
   ],
-  "browser_action": {
+  "page_action": {
     "default_icon": "images/icons/valid-site.svg",
     "default_popup": "dist/index.html"
   },
