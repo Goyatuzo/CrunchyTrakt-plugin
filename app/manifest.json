@@ -26,7 +26,7 @@
         "*://*.vrv.co/*"
       ],
       "js": [
-        "dist/vrv.js"
+        "dist/content.js"
       ]
     }
   ]
