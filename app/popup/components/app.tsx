@@ -3,6 +3,7 @@ import * as React from 'react';
 import AppStateContext, { IAppStateContext } from '../contexts/app-state';
 import TraktApi from '../../trakt/trakt-api';
 import Login from './login'
+import CurrentlyPlaying from './currently-playing';
 import { AppMessageType, IAppMessage } from '../../classes/app-message';
 import { browser } from 'webextension-polyfill-ts';
 import { IVideoData } from '../../classes/video-info';
@@ -41,7 +42,7 @@ export class App extends React.Component<unknown, IAppStateContext> {
             });
         });
 
-        this.sendMessage({type: AppMessageType.GET_VIDEO_DATA, payload: 'vrv'}).then((res: IVideoData) => {
+        this.sendMessage({ type: AppMessageType.GET_VIDEO_DATA, payload: 'vrv' }).then((res: IVideoData) => {
             this.setState({
                 beingPlayed: res
             });
@@ -59,7 +60,7 @@ export class App extends React.Component<unknown, IAppStateContext> {
                     </div>
 
                     <div className="panel-body">
-                        <p>HELLO</p>
+                        <CurrentlyPlaying />
                     </div>
                 </div>
             </AppStateContext.Provider >
