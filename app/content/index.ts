@@ -1,19 +1,21 @@
 import Vrv from "../websites/vrv";
-import { IChromeMessage, ChromeMessageType } from "../classes/chrome-message";
+import { IAppMessage, AppMessageType } from "../classes/app-message";
 import { browser } from 'webextension-polyfill-ts';
-import { IVideoData } from "../classes/video-info";
 
-let vrv = new Vrv();
+console.log("Content script INIT");
 
-browser.runtime.onMessage.addListener((message: IChromeMessage, sender) => {
-    console.log("MESSAGE RECEIVED");
-    switch (message.type) {
-        case ChromeMessageType.GET_VIDEO_DATA: {
-            return Promise.resolve(vrv.episodeTitle);
+browser.runtime.onMessage.addListener((req: IAppMessage) => {
+    return new Promise((resolve, reject) => {
+        switch (req.type) {
+            case AppMessageType.GET_VIDEO_DATA: {
+                if (req.payload === 'vrv') {
+                    const vrv = new Vrv();
+                    console.log(vrv.seriesName);
+                    resolve(vrv.seriesName);
+                } else {
+                    reject(`Video data for ${req.payload} was requested`);
+                }
+            }
         }
-
-        case ChromeMessageType.GET_CURRENT_TIMESTAMP: {
-            break;
-        }
-    }
-})
+    });
+});
