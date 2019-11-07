@@ -11,8 +11,8 @@ export class CurrentlyPlaying extends React.Component<unknown, {}> {
             return (
                 <div className="panel">
                     <p>{this.context.beingPlayed.seriesName}</p>
-
                     <p>Season {this.context.beingPlayed.seasonNumber} EP {this.context.beingPlayed.episodeNumber}</p>
+                    <p>{this.context.beingPlayed.episodeTitle}</p>
                 </div>
             )
         }
