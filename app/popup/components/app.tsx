@@ -5,6 +5,7 @@ import TraktApi from '../../trakt/trakt-api';
 import Login from './login'
 import { AppMessageType, IAppMessage } from '../../classes/app-message';
 import { browser } from 'webextension-polyfill-ts';
+import { IVideoData } from '../../classes/video-info';
 
 export class App extends React.Component<unknown, IAppStateContext> {
     constructor(props: any) {
@@ -19,12 +20,13 @@ export class App extends React.Component<unknown, IAppStateContext> {
             login: () => {
                 TraktApi.authorize();
                 this.setState({ loggedIn: true })
-            }
+            },
+            beingPlayed: null
         };
     };
 
     async sendMessage(payload: IAppMessage): Promise<any> {
-        const tabs = await browser.tabs.query({ url: `*://*.vrv.co/*`, active: true });
+        const tabs = await browser.tabs.query({ url: `*://*.vrv.co/watch/*`, active: true });
         if (tabs.length > 0) {
             return browser.tabs.sendMessage(tabs[0].id, payload);
         } else {
@@ -39,8 +41,10 @@ export class App extends React.Component<unknown, IAppStateContext> {
             });
         });
 
-        this.sendMessage({type: AppMessageType.GET_VIDEO_DATA, payload: 'vrv'}).then(res => {
-            console.log(res);
+        this.sendMessage({type: AppMessageType.GET_VIDEO_DATA, payload: 'vrv'}).then((res: IVideoData) => {
+            this.setState({
+                beingPlayed: res
+            });
         }).catch(err => {
             console.error(err);
         });
