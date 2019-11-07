@@ -61,7 +61,7 @@ export default class Vrv extends VideoInfo {
             if (seriesTitle.length > 0) {
                 return seriesTitle[0].innerText;
             } else {
-                throw Error("Could not find element");
+                return "";
             }
         } catch (ex) {
             // console.error("Trakt-it: Series Name");

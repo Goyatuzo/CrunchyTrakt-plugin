@@ -16,7 +16,7 @@ const outputLocation = {
 module.exports = [
     {
         entry: {
-            "vrv": "./app/event-handlers/vrv-events",
+            "content": "./app/content",
             "background": "./app/background"
         },
         mode: "development",
