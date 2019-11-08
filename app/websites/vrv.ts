@@ -9,12 +9,12 @@ export default class Vrv extends VideoInfo {
 
     get episodeNumber(): number {
         try {
-            const episodeTitle = document.getElementsByClassName("video-subtitle") as HTMLCollectionOf<HTMLDivElement>;
+            const episodeTitle = document.querySelectorAll("h2.title") as NodeListOf<HTMLDivElement>;
 
             if (episodeTitle.length > 0) {
-                const tokens = episodeTitle[0].innerText.split(":");
-                console.log(tokens);
-                return parseInt(episodeTitle[0].innerText);
+                const tokens = episodeTitle[0].innerText.split("<!-- -->");
+                const episodeNumberString = tokens[0].replace(/[^0-9]+/g, '');
+                return parseInt(episodeNumberString);
             } else {
                 throw Error("Could not find element");
             }
@@ -46,7 +46,6 @@ export default class Vrv extends VideoInfo {
         const episodeTitle = document.querySelector(".episode-info+h2") as HTMLHeadingElement;
 
         if (episodeTitle.innerText) {
-            console.log(episodeTitle.innerText)
             const tokens = episodeTitle.innerText.split("-");
             return tokens[1].trim();
         } else {
