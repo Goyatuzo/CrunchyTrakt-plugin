@@ -27,7 +27,7 @@ export class App extends React.Component<unknown, IAppStateContext> {
     };
 
     async sendMessage(payload: IAppMessage): Promise<any> {
-        const tabs = await browser.tabs.query({ url: `*://*.vrv.co/watch/*`, active: true });
+        const tabs = await browser.tabs.query({ url: `*://*.crunchyroll.com/watch/*`, active: true });
         if (tabs.length > 0) {
             return browser.tabs.sendMessage(tabs[0].id, payload);
         } else {

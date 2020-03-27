@@ -23,7 +23,7 @@
   "content_scripts": [
     {
       "matches": [
-        "*://*.vrv.co/*"
+        "*://*.crunchyroll.com/*"
       ],
       "js": [
         "dist/content.js"
