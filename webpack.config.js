@@ -54,13 +54,13 @@ module.exports = [
 
         resolve: {
             // Add '.ts' and '.tsx' as resolvable extensions.
-            extensions: [".ts", ".js"]
+            extensions: [".ts", ".tsx", ".js"]
         },
 
         module: {
             rules: [
                 // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-                { test: /\.ts?$/, loader: "ts-loader" }
+                { test: /\.tsx?$/, loader: "ts-loader" }
             ],
         },
 
