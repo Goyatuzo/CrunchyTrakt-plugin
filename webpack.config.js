@@ -16,8 +16,7 @@ const outputLocation = {
 module.exports = [
     {
         entry: {
-            "content": "./app/content",
-            "background": "./app/background"
+            "crunchy-sync": "./app/crunchyroll-sync/index.tsx"
         },
         mode: "development",
         output: outputLocation,
@@ -40,6 +39,12 @@ module.exports = [
         plugins: [
             new webpack.DefinePlugin({
                 'API_ROOT': JSON.stringify(API_ROOT)
+            }),
+
+            new HtmlWebpackPlugin({
+                hash: true,
+                template: './app/crunchyroll-sync/index.html',
+                filename: 'crunchyroll-sync/index.html'
             })
         ]
     },
