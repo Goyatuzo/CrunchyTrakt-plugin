@@ -7,6 +7,7 @@ import CurrentlyPlaying from './currently-playing';
 import { AppMessageType, IAppMessage } from '../../classes/app-message';
 import { browser } from 'webextension-polyfill-ts';
 import { IVideoData } from '../../classes/video-info';
+import SyncRedirect from './sync-redirect';
 
 export class App extends React.Component<unknown, IAppStateContext> {
     constructor(props: any) {
@@ -60,7 +61,7 @@ export class App extends React.Component<unknown, IAppStateContext> {
                     </div>
 
                     <div className="panel-body">
-                        <CurrentlyPlaying />
+                        <SyncRedirect />
                     </div>
                 </div>
             </AppStateContext.Provider >
