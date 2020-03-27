@@ -16,6 +16,34 @@ const outputLocation = {
 module.exports = [
     {
         entry: {
+            "background": "./app/background"
+        },
+        mode: "development",
+        output: outputLocation,
+
+        // Enable sourcemaps for debugging webpack's output.
+        devtool: "source-map",
+
+        resolve: {
+            // Add '.ts' and '.tsx' as resolvable extensions.
+            extensions: [".ts", ".js"]
+        },
+
+        module: {
+            rules: [
+                // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+                { test: /\.ts?$/, loader: "ts-loader" }
+            ],
+        },
+
+        plugins: [
+            new webpack.DefinePlugin({
+                'API_ROOT': JSON.stringify(API_ROOT)
+            })
+        ]
+    },
+    {
+        entry: {
             "crunchy-sync": "./app/crunchyroll-sync/index.tsx"
         },
         mode: "development",
