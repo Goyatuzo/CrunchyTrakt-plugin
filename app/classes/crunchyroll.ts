@@ -38,7 +38,7 @@ namespace Crunchyroll {
         description: string;
         season: string;
         /**
-         * Whether or not the user has completed watching the show.
+         * Whether or not the anime is complete; ie all episodes are available in some form.
          */
         complete: boolean;
     }
