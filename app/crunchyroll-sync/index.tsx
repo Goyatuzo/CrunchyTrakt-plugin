@@ -1,4 +1,5 @@
 import * as React from 'react';
 import { render } from 'react-dom';
+import CrunchyrollSync from './react';
 
-render(<div>TEST</div>, document.getElementById("crunchy-sync-container"));
+render(<CrunchyrollSync />, document.getElementById("crunchy-sync-container"));
