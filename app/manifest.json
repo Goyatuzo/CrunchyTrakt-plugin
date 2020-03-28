@@ -5,11 +5,11 @@
   "version": "1.0",
   "permissions": [
     "activeTab",
-    "webNavigation",
     "tabs",
     "identity",
     "storage",
-    "https://*.trakt.tv/*"
+    "cookies",
+    "*://*.crunchyroll.com/*"
   ],
   "page_action": {
     "default_icon": "images/icons/valid-site.svg",
