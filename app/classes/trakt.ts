@@ -1,5 +1,5 @@
-declare namespace Trakt {
-    interface GetTokenRequest {
+namespace Trakt {
+    export interface GetTokenRequest {
         code: string;
         client_id: string;
         client_secret: string;
@@ -7,7 +7,7 @@ declare namespace Trakt {
         grant_type: string;
     }
 
-    interface GetTokenResponse {
+    export interface GetTokenResponse {
         access_token: string;
         token_type: string;
         expires_in: number;
@@ -16,7 +16,7 @@ declare namespace Trakt {
         created_at: number;
     }
 
-    interface RevokeTokenRequest {
+    export interface RevokeTokenRequest {
         /**
          * A valid OAuth access_token.
          */
@@ -29,5 +29,32 @@ declare namespace Trakt {
          * Get this from your app settings.
          */
         client_secret: string;
+    }
+
+    export type SearchType = 'movie' | 'show' | 'episode' | 'person' | 'list';
+
+    interface BaseSearchResult {
+        title: string;
+        year: number;
+        ids: {
+            trakt: number;
+            slug: string;
+            imdb?: string;
+            tmdb?: string;
+        }
+    }
+
+    interface EpisodeSearchResult extends BaseSearchResult {
+        season: number;
+        number: number;
+    }
+
+    export interface SearchResult {
+        type: SearchType;
+        score: number;
+        movie?: BaseSearchResult;
+        show?: BaseSearchResult;
+        episode?: EpisodeSearchResult;
+        person?: BaseSearchResult;
     }
 }

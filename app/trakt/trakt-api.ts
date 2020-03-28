@@ -83,8 +83,8 @@ export class TraktApiHandler {
      * @param type The type of media to be searched.
      * @param query What is being searched.
      */
-    public async search(type: ('movie' | 'show' | 'episode' | 'person' | 'list')[], query: string) {
-        return await axios.get(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
+    public async search(type: Trakt.SearchType[], query: string) {
+        return await axios.get<Trakt.SearchResult>(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
     }
 }
 
