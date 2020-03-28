@@ -1,5 +1,10 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import CrunchyrollSync from './react';
+import { Provider } from 'react-redux';
 
-render(<CrunchyrollSync />, document.getElementById("crunchy-sync-container"));
+import CrunchyrollSync from './react';
+import store from './redux';
+
+render(<Provider store={store}>
+    <CrunchyrollSync />
+</Provider>, document.getElementById("crunchy-sync-container"));
