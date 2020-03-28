@@ -6,14 +6,10 @@ import { CombinedState } from "../reducers";
 import Axios from 'axios';
 import { browser } from 'webextension-polyfill-ts';
 
-export function storeCrunchyrollSession() {
-    return (dispatch: ThunkDispatch<any, any, IAction>, getState: () => CombinedState) => {
-        // Dispatch the request
-        dispatch({ type: ActionType.REQUEST_CRUNCHYROLL_SESSION });
-
-        browser.cookies.getAll({ domain: '.crunchyroll.com', name: 'session_id' }).then(cookies => {
-            console.log(cookies);
-        });
+function historyFetchError(err: Error): IAction {
+    return {
+        type: ActionType.ERROR_CRUNCHYROLL_HISTORY,
+        value: err
     }
 }
 
@@ -34,7 +30,14 @@ export function getCrunchyrollHistory() {
             dispatch({ type: ActionType.REQUEST_CRUNCHYROLL_HISTORY });
 
             Axios.get(recentlyWatchedApi(getState().crunchyroll.sessionId, 30)).then(response => {
-                console.log(response);
+                if (!response.data.error) {
+                    dispatch({
+                        type: ActionType.STORE_CRUNCHYROLL_HISTORY,
+                        value: response.data.data
+                    })
+                } else {
+                    dispatch(historyFetchError(new Error("Recently Watched API returned error")));
+                }
             })
         });
     }
