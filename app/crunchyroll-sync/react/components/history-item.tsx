@@ -6,18 +6,14 @@ interface IExternalProps {
 
 const HistoryItem: React.StatelessComponent<IExternalProps> = props => {
     return (
-        <div className="card">
-            <div className="row">
-                <div className="col col-md-6">
-                    <h3 className="card-title">{props.data.media.name}</h3>
-                    <img src={props.data.media.screenshot_image.thumb_url}></img>
-                    <p>Season {props.data.collection.season}, Episode {props.data.media.episode_number}</p>
-                </div>
-
-                <div className="col col-md-6">
-                    <h3 className="card-title">{props.data.media.name}</h3>
-                    <img src={props.data.media.screenshot_image.thumb_url}></img>
-                    <p>Season {props.data.collection.season}, Episode {props.data.media.episode_number}</p>
+        <div className="item">
+            <div className="image">
+                <img className="image" src={props.data.media.screenshot_image.thumb_url}></img>
+            </div>
+            <div className="content">
+                <a className="header">{props.data.media.name}</a>
+                <div className="description">
+                    Season {parseInt(props.data.collection.season) + 1}, Episode {props.data.media.episode_number}
                 </div>
             </div>
         </div>

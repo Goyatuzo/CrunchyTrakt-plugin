@@ -11,7 +11,7 @@ type HistoryListProps = StateToProps;
 
 const HistoryListComp: React.StatelessComponent<HistoryListProps> = props => {
     return (
-        <div>
+        <div className="ui items">
             {
                 props.items.map(data => <HistoryItem key={data.timestamp} data={data} />)
             }
