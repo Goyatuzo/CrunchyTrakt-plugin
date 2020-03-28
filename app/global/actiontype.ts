@@ -1,3 +1,4 @@
 export enum ActionType {
-    
+    REQUEST_CRUNCHYROLL_HISTORY,
+    STORE_CRUNCHYROLL_HISTORY
 }
