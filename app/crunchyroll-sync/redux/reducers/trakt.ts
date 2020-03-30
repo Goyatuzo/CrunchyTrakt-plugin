@@ -2,7 +2,7 @@ import { IAction } from "../../../global/action";
 import { ActionType } from "../../../global/actiontype";
 
 export interface TraktState {
-    results: { [key: string]: Trakt.EpisodeSearchResult };
+    results: { [key: string]: Trakt.SearchResult };
     isRequesting: { [key: string]: boolean };
     historicScrobbles: { [key: string]: Trakt.ScrobbleHistory };
     isRequestingHistoricScrobbles: { [key: string]: boolean };
