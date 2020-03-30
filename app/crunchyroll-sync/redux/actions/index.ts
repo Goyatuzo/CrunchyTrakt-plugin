@@ -42,3 +42,5 @@ export function getCrunchyrollHistory() {
         });
     }
 }
+
+export * from './trakt';

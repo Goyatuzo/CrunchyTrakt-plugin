@@ -4,21 +4,25 @@ import { CombinedState } from "../reducers";
 import TraktApi from "../../../trakt/trakt-api";
 import { ActionType } from "../../../global/actiontype";
 
-export function getTraktInformationFor(type: Trakt.SearchType[], query: string) {
+export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.HistoryItem) {
     return (dispatch: ThunkDispatch<any, any, IAction>, getState: () => CombinedState) => {
         dispatch({ type: ActionType.REQUEST_TRAKT_SEARCH });
 
-        TraktApi.search(type, query).then(response => {
-            const queryData = response.data.episode ?? response.data.movie;
+        // // If query has been made, or is being made, don't do anything.
+        // if (query in getState().trakt.results || getState().trakt.isRequesting[query]) {
+        //     return;
+        // }
+
+        TraktApi.search(type, query.media.name).then(response => {
+            const seriesMatch = response.data.filter(data => query.series.name === data.show.title);
 
             dispatch({
                 type: ActionType.STORE_TRAKT_SEARCH,
                 value: {
-                    key: queryData.title,
-                    value: queryData
+                    key: query.media.name,
+                    value: seriesMatch[0]
                 }
-            })
-            response.data;
+            });
         })
     }
 }

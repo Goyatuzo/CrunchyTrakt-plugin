@@ -4,9 +4,11 @@ namespace Crunchyroll {
         timestamp: string;
         media: HistoryItemMedia;
         collection: HistoryItemCollection;
+        series: HistoryItemSeries;
     }
 
     interface HistoryItemMedia {
+        media_id: string;
         /**
          * Title of the episode.
          */
@@ -41,5 +43,18 @@ namespace Crunchyroll {
          * Whether or not the anime is complete; ie all episodes are available in some form.
          */
         complete: boolean;
+    }
+
+    interface HistoryItemSeries {
+        class: string;
+        series_id: string;
+        url: string;
+        name: string;
+        media_type: string;
+        landscape_image: {
+            thumb_url: string;
+            small_url: string;
+        };
+        description: string;
     }
 }

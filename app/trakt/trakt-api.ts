@@ -84,7 +84,7 @@ export class TraktApiHandler {
      * @param query What is being searched.
      */
     public async search(type: Trakt.SearchType[], query: string) {
-        return await axios.get<Trakt.SearchResult>(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
+        return await axios.get<Trakt.SearchResult[]>(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
     }
 }
 
