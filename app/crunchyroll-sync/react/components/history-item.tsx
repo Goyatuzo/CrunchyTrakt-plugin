@@ -22,6 +22,17 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
         props.requestTrakt(['episode'])
     }
 
+    let TraktComponent: JSX.Element = null
+
+    if (props.traktData) {
+        TraktComponent = <div className="content">
+            <h3 className="header">{props.traktData?.episode.title}</h3>
+            <div className="description">
+                Season {props.traktData?.episode.season}, Episode {props.traktData?.episode.number}
+            </div>
+        </div>
+    }
+
     return (
         <div className="item">
             <div className="image">
@@ -34,9 +45,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
                 </div>
             </div>
 
-            <div className="content">
-                <a className="header">{props.traktData?.episode?.title}</a>
-            </div>
+            {TraktComponent}
         </div>
     )
 }
