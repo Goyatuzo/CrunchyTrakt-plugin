@@ -57,4 +57,8 @@ namespace Trakt {
         episode?: EpisodeSearchResult;
         person?: BaseSearchResult;
     }
+
+    export interface ScrobbleHistory extends SearchResult {
+        watched_at: string;
+    }
 }

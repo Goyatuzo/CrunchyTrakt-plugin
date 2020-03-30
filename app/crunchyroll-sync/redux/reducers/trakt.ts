@@ -2,13 +2,17 @@ import { IAction } from "../../../global/action";
 import { ActionType } from "../../../global/actiontype";
 
 export interface TraktState {
-    results: { [key: string]: Trakt.SearchResult };
-    isRequesting: { [key: string]: boolean }
+    results: { [key: string]: Trakt.EpisodeSearchResult };
+    isRequesting: { [key: string]: boolean };
+    historicScrobbles: { [key: string]: Trakt.ScrobbleHistory };
+    isRequestingHistoricScrobbles: { [key: string]: boolean };
 }
 
 const defaultState: TraktState = {
     results: {},
-    isRequesting: {}
+    isRequesting: {},
+    historicScrobbles: {},
+    isRequestingHistoricScrobbles: {}
 }
 
 export function reducer(state = defaultState, action: IAction) {
@@ -27,6 +31,23 @@ export function reducer(state = defaultState, action: IAction) {
             currentRequests[action.value.key] = false;
 
             return { ...state, results: currentResults, isRequesting: currentRequests };
+        }
+
+        case ActionType.REQUEST_TRAKT_EPISODE_HISTORY: {
+            let currentRequests = { ...state.isRequestingHistoricScrobbles };
+            currentRequests[action.value] = true;
+
+            return { ...state, isRequestingHistoricScrobbles: currentRequests };
+        }
+
+        case ActionType.STORE_TRAKT_EPISODE_HISTORY: {
+            let currentHistory = { ...state.historicScrobbles };
+            let currentRequests = { ...state.isRequestingHistoricScrobbles };
+
+            currentHistory[action.value.key] = action.value.value;
+            currentRequests[action.value.key] = false;
+
+            return { ...state, historicScrobbles: currentHistory, isRequestingHistoricScrobbles: currentRequests };
         }
         default:
             return state;
