@@ -9,6 +9,7 @@ interface ExternalProps {
 
 interface StateToProps {
     traktData: Trakt.SearchResult;
+    isRequestingTrakt: boolean;
 }
 
 interface DispatchToProps {
@@ -24,13 +25,15 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
 
     let TraktComponent: JSX.Element = null
 
-    if (props.traktData) {
+    if (!props.isRequestingTrakt && props.traktData) {
         TraktComponent = <div className="content">
             <h3 className="header">{props.traktData?.episode.title}</h3>
             <div className="description">
                 Season {props.traktData?.episode.season}, Episode {props.traktData?.episode.number}
             </div>
         </div>
+    } else if (props.isRequestingTrakt) {
+        TraktComponent = <div className="ui active centered inline loader"></div>;
     }
 
     return (
@@ -52,7 +55,8 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
 
 const HistoryItem = connect<StateToProps, DispatchToProps, ExternalProps, CombinedState>((state, ext) => {
     return {
-        traktData: state.trakt.results[ext.data.media.name]
+        traktData: state.trakt.results[ext.data.media.name],
+        isRequestingTrakt: state.trakt.isRequesting[ext.data.media.name]
     }
 }, (dispatch, ext) => {
     return {
