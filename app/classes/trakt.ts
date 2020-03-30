@@ -44,7 +44,7 @@ namespace Trakt {
         }
     }
 
-    interface EpisodeSearchResult extends BaseSearchResult {
+    export interface EpisodeSearchResult extends BaseSearchResult {
         season: number;
         number: number;
     }

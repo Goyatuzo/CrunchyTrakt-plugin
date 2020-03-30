@@ -86,6 +86,19 @@ export class TraktApiHandler {
     public async search(type: Trakt.SearchType[], query: string) {
         return await axios.get<Trakt.SearchResult[]>(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
     }
+
+    public async addEpisodesToHistory(crunchyrollData: Crunchyroll.HistoryItem[], traktData: Trakt.EpisodeSearchResult[]) {
+        const postData = crunchyrollData.map((crunchy, idx) => {
+            return {
+                item: traktData[idx],
+                watched_at: crunchy.timestamp
+            }
+        })
+
+        return await axios.post(`${this.apiRoot}/sync/history`, {
+            episodes: postData
+        }, this.requestConfig);
+    }
 }
 
 const TraktApi = new TraktApiHandler();
