@@ -87,6 +87,10 @@ export class TraktApiHandler {
         return await axios.get<Trakt.SearchResult[]>(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
     }
 
+    public async getEpisodesFromHistory(traktData: Trakt.EpisodeSearchResult) {
+        return await axios.get(`${this.apiRoot}/sync/history/episode/${traktData.ids.trakt}`)
+    }
+
     public async addEpisodesToHistory(crunchyrollData: Crunchyroll.HistoryItem[], traktData: Trakt.EpisodeSearchResult[]) {
         const postData = crunchyrollData.map((crunchy, idx) => {
             return {
