@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { CombinedState } from '../../redux/reducers';
 import { searchTraktFor } from '../../redux/actions';
+import SyncEpisodeToggle from './sync-episode-toggle';
 
 interface ExternalProps {
     data: Crunchyroll.HistoryItem;
@@ -33,10 +34,10 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
                 Season {props.traktData?.episode.season}, Episode {props.traktData?.episode.number}
             </div>
         </>
-    // We are still waiting for a response
+        // We are still waiting for a response
     } else if (props.isRequestingTrakt) {
         TraktComponent = <div className="ui active centered inline loader"></div>;
-    // Couldn't find the data in Trakt.
+        // Couldn't find the data in Trakt.
     } else if (!props.isRequestingTrakt && !props.traktData) {
         TraktComponent = <>
             <h3 className="header">Could not find the Episode in Trakt</h3>
@@ -55,6 +56,10 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
                 </div>
 
                 {TraktComponent}
+            </div>
+
+            <div className="content">
+                <SyncEpisodeToggle crunchyData={props.data} syncable={props.traktData !== undefined} />
             </div>
         </div>
     )
