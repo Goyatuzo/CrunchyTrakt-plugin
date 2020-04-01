@@ -25,15 +25,22 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
 
     let TraktComponent: JSX.Element = null
 
+    // If the trakt request returns data 
     if (!props.isRequestingTrakt && props.traktData) {
-        TraktComponent = <div className="content">
+        TraktComponent = <>
             <h3 className="header">{props.traktData?.episode.title}</h3>
             <div className="description">
                 Season {props.traktData?.episode.season}, Episode {props.traktData?.episode.number}
             </div>
-        </div>
+        </>
+    // We are still waiting for a response
     } else if (props.isRequestingTrakt) {
         TraktComponent = <div className="ui active centered inline loader"></div>;
+    // Couldn't find the data in Trakt.
+    } else if (!props.isRequestingTrakt && !props.traktData) {
+        TraktComponent = <>
+            <h3 className="header">Could not find the Episode in Trakt</h3>
+        </>
     }
 
     return (
@@ -46,9 +53,9 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
                 <div className="description">
                     Season {parseInt(props.data.collection.season)}, Episode {props.data.media.episode_number}
                 </div>
-            </div>
 
-            {TraktComponent}
+                {TraktComponent}
+            </div>
         </div>
     )
 }
