@@ -28,9 +28,11 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
     function labelText(): string {
         if (props.scrobbleData && props.traktData) {
             return 'Already Synced';
-        } else {
+        } else if (props.traktData && !props.scrobbleData) {
             return 'Sync to Trakt';
         }
+
+        return 'Cannot be synced';
     }
 
     if (props.scrobbleData) {
@@ -42,10 +44,10 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
     const syncedToTrakt = props.scrobbleData && props.traktData !== undefined;
 
     return (
-        <div className='ui toggle checkbox'>
+        <label className="checkbox">
             <input onClick={onClick} type="checkbox" name="newsletter" defaultChecked={syncedToTrakt} disabled={(props.traktData === undefined) || syncedToTrakt} />
-            <label>{labelText()}</label>
-        </div>
+            {labelText()}
+        </label>
     )
 }
 

@@ -45,23 +45,29 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
     }
 
     return (
-        <article className="media">
-            <figure className="image">
-                <img src={props.data.media.screenshot_image.thumb_url} />
-            </figure>
-            <div className="content">
-                <h3 className="header">{props.data.media.name}</h3>
-                <div className="description">
-                    Season {parseInt(props.data.collection.season)}, Episode {props.data.media.episode_number}
+        <div className="box">
+            <article className="media">
+                <div className="media-left">
+                    <figure className="image">
+                        <img src={props.data.media.screenshot_image.thumb_url} />
+                    </figure>
+                </div>
+                <div className="media-content">
+                    <div className="content">
+                        <h3 className="header">{props.data.media.name}</h3>
+                        <div className="description">
+                            Season {parseInt(props.data.collection.season)}, Episode {props.data.media.episode_number}
+                        </div>
+
+                        {TraktComponent}
+                    </div>
                 </div>
 
-                {TraktComponent}
-            </div>
-
-            <div className="content">
-                <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} />
-            </div>
-        </article>
+                <div className="media-right">
+                    <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} />
+                </div>
+            </article>
+        </div>
     )
 }
 
