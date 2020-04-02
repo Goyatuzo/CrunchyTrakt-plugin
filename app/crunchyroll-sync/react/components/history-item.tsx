@@ -46,9 +46,9 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
 
     return (
         <article className="media">
-            <div className="image">
-                <img className="image" src={props.data.media.screenshot_image.thumb_url}></img>
-            </div>
+            <figure className="image">
+                <img src={props.data.media.screenshot_image.thumb_url} />
+            </figure>
             <div className="content">
                 <h3 className="header">{props.data.media.name}</h3>
                 <div className="description">
