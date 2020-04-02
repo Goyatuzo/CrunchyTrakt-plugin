@@ -38,15 +38,15 @@ export class App extends React.Component<unknown, IAppStateContext> {
     render() {
         return (
             <AppStateContext.Provider value={this.state}>
-                <div className="panel">
-                    <div className="panel-head">
+                <section className="section">
+                    <div className="container">
                         <Login />
                     </div>
 
-                    <div className="panel-body">
+                    <div className="container">
                         <SyncRedirect />
                     </div>
-                </div>
+                </section>
             </AppStateContext.Provider >
         )
     }

@@ -11,7 +11,7 @@ const SyncRedirect: React.StatelessComponent<{}> = _ => {
         });
     }
 
-    return <button className="button-primary" type="button" onClick={onClick}>Open Sync Tab</button>
+    return <button className="button is-info is-light" type="button" onClick={onClick}>Go to Sync Page</button>
 }
 
 export default SyncRedirect;
