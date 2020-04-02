@@ -21,8 +21,9 @@ interface DispatchToProps {
 type SyncEpisodeToggleProps = ExternalProps & StateToProps & DispatchToProps;
 
 const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = props => {
-    function onClick(evt: React.MouseEvent<HTMLInputElement>) {
-        props.addToHistory();
+    function onClick(evt: React.ChangeEvent<HTMLInputElement>) {
+        if (evt.currentTarget.checked)
+            props.addToHistory();
     }
 
     function labelText(): string {
@@ -45,7 +46,7 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
 
     return (
         <label className="checkbox">
-            <input onClick={onClick} type="checkbox" name="newsletter" defaultChecked={syncedToTrakt} disabled={(props.traktData === undefined) || syncedToTrakt} />
+            <input onChange={onClick} type="checkbox" name="newsletter" defaultChecked={syncedToTrakt} disabled={(props.traktData === undefined) || syncedToTrakt} />
             {labelText()}
         </label>
     )
