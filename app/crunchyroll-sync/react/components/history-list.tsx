@@ -11,11 +11,13 @@ type HistoryListProps = StateToProps;
 
 const HistoryListComp: React.StatelessComponent<HistoryListProps> = props => {
     return (
-        <div className="ui items">
-            {
-                props.items.map(data => <HistoryItem key={data.timestamp} data={data} />)
-            }
-        </div>
+        <section className="section">
+            <div className="container">
+                {
+                    props.items.map(data => <HistoryItem key={data.timestamp} data={data} />)
+                }
+            </div>
+        </section>
     )
 }
 

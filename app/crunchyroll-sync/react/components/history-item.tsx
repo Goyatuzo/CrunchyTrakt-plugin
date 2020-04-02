@@ -45,7 +45,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
     }
 
     return (
-        <div className="item">
+        <article className="media">
             <div className="image">
                 <img className="image" src={props.data.media.screenshot_image.thumb_url}></img>
             </div>
@@ -61,7 +61,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
             <div className="content">
                 <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} />
             </div>
-        </div>
+        </article>
     )
 }
 
