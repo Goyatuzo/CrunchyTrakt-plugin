@@ -20,15 +20,5 @@
     "scripts": [
       "dist/background.js"
     ]
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "*://*.crunchyroll.com/*"
-      ],
-      "js": [
-        "dist/content.js"
-      ]
-    }
-  ]
+  }
 }
