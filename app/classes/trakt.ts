@@ -64,4 +64,19 @@ namespace Trakt {
     export interface ScrobbleHistory extends SearchResult {
         watched_at: string;
     }
+
+    export interface HistoryAddResponse {
+        added: {
+            movies: number;
+            episodes: number;
+        };
+
+        not_found: {
+            movies: BaseSearchResult[];
+            shows: BaseSearchResult[];
+            seasons: BaseSearchResult[];
+            episodes: EpisodeContent[];
+            people: BaseSearchResult[];
+        };
+    }
 }

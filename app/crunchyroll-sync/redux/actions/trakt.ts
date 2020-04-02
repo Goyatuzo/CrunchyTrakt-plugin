@@ -58,10 +58,18 @@ export function getTraktHistoryFor(crunchy: Crunchyroll.HistoryItem) {
 
 export function addTraktHistory(crunchyItem: Crunchyroll.HistoryItem, traktItem: Trakt.SearchResult) {
     return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
-        dispatch({ type: ActionType.START_TRAKT_EPISODE_HISTORY_ADD });
+        const key = `${crunchyItem.media.media_id}${crunchyItem.timestamp}`;
+
+        dispatch({ type: ActionType.START_TRAKT_EPISODE_HISTORY_ADD, value: key });
 
         TraktApi.addEpisodesToHistory([crunchyItem], [traktItem]).then(response => {
-            dispatch({ type: ActionType.SUCCESS_TRAKT_EPISODE_HISTORY_ADD });
+            if (response.data.added.episodes === 1) {
+                dispatch({ type: ActionType.SUCCESS_TRAKT_EPISODE_HISTORY_ADD, value: key });
+            } else {
+                dispatch({ type: ActionType.ERROR_TRAKT_EPISODE_HISTORY_ADD, value: key });
+            }
+        }).catch(err => {
+            dispatch({ type: ActionType.ERROR_TRAKT_EPISODE_HISTORY_ADD, value: key });
         });
     }
 }

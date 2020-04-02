@@ -1,18 +1,21 @@
 import { IAction } from "../../../global/action";
 import { ActionType } from "../../../global/actiontype";
+import { RequestState } from "../../../classes/request-state";
 
 export interface TraktState {
     results: { [key: string]: Trakt.SearchResult };
     isRequesting: { [key: string]: boolean };
     historicScrobbles: { [key: string]: Trakt.ScrobbleHistory[] };
     isRequestingHistoricScrobbles: { [key: string]: boolean };
+    historyAddState: { [key: string]: RequestState };
 }
 
 const defaultState: TraktState = {
     results: {},
     isRequesting: {},
     historicScrobbles: {},
-    isRequestingHistoricScrobbles: {}
+    isRequestingHistoricScrobbles: {},
+    historyAddState: {}
 }
 
 export function reducer(state = defaultState, action: IAction) {
@@ -51,11 +54,24 @@ export function reducer(state = defaultState, action: IAction) {
         }
 
         case ActionType.START_TRAKT_EPISODE_HISTORY_ADD: {
-            return state;
+            let currentHistoryAddState = { ...state.historyAddState };
+            currentHistoryAddState[action.value] = RequestState.AWAITING;
+
+            return { ...state, historyAddState: currentHistoryAddState };
         }
 
         case ActionType.SUCCESS_TRAKT_EPISODE_HISTORY_ADD: {
-            return state;
+            let currentHistoryAddState = { ...state.historyAddState };
+            currentHistoryAddState[action.value] = RequestState.SUCCESS;
+
+            return { ...state, historyAddState: currentHistoryAddState };
+        }
+
+        case ActionType.ERROR_TRAKT_EPISODE_HISTORY_ADD: {
+            let currentHistoryAddState = { ...state.historyAddState };
+            currentHistoryAddState[action.value] = RequestState.FAILURE;
+
+            return { ...state, historyAddState: currentHistoryAddState };
         }
 
         default:

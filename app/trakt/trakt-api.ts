@@ -109,7 +109,7 @@ export class TraktApiHandler {
             }
         });
 
-        return await axios.post(`${this.apiRoot}/sync/history`, {
+        return await axios.post<Trakt.HistoryAddResponse>(`${this.apiRoot}/sync/history`, {
             episodes: postData
         }, await this.oAuthRequestConfig());
     }
