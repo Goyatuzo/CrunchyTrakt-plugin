@@ -36,12 +36,6 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
         return 'Cannot be synced';
     }
 
-    if (props.scrobbleData) {
-        console.log(props.scrobbleData);
-        console.log(props.crunchyData.timestamp);
-        console.log(props.traktData !== undefined);
-    }
-
     const syncedToTrakt = props.scrobbleData && props.traktData !== undefined;
 
     return (
