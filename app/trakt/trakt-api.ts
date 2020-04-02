@@ -98,7 +98,7 @@ export class TraktApiHandler {
     }
 
     public async getEpisodesFromHistory(traktData: Trakt.EpisodeContent) {
-        return await axios.get<Trakt.ScrobbleHistory>(`${this.apiRoot}/sync/history/episode/${traktData.ids.trakt}`)
+        return await axios.get<Trakt.ScrobbleHistory[]>(`${this.apiRoot}/sync/history/episodes/${traktData.ids.trakt}`, await this.oAuthRequestConfig())
     }
 
     public async addEpisodesToHistory(crunchyrollData: Crunchyroll.HistoryItem[], traktData: Trakt.SearchResult[]) {
@@ -108,8 +108,6 @@ export class TraktApiHandler {
                 watched_at: crunchy.timestamp
             }
         });
-
-        console.log(postData);
 
         return await axios.post(`${this.apiRoot}/sync/history`, {
             episodes: postData

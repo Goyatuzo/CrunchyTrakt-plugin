@@ -18,13 +18,15 @@ export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.Hist
                     value: seriesMatch[0]
                 }
             });
+
+            dispatch(getTraktHistoryFor(query));
         })
     }
 }
 
 export function getTraktHistoryFor(crunchy: Crunchyroll.HistoryItem) {
     return (dispatch: ThunkDispatch<any, any, IAction>, getState: () => CombinedState) => {
-        const key = `${crunchy.media.media_id}${crunchy.timestamp}`
+        const key = crunchy.media.name;
 
         dispatch({
             type: ActionType.REQUEST_TRAKT_EPISODE_HISTORY,
@@ -42,15 +44,14 @@ export function getTraktHistoryFor(crunchy: Crunchyroll.HistoryItem) {
             const trakt = state.trakt.results[crunchy.media.name];
 
             TraktApi.getEpisodesFromHistory(trakt.episode).then(response => {
-
                 dispatch({
-                    type: ActionType.STORE_TRAKT_SEARCH,
+                    type: ActionType.STORE_TRAKT_EPISODE_HISTORY,
                     value: {
                         key: key,
                         value: response.data
                     }
                 });
-            })
+            });
         }
     }
 }

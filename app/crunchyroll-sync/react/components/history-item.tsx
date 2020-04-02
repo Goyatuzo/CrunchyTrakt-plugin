@@ -59,7 +59,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
             </div>
 
             <div className="content">
-                <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} syncable={props.traktData !== undefined} />
+                <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} />
             </div>
         </div>
     )
@@ -68,7 +68,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
 const HistoryItem = connect<StateToProps, DispatchToProps, ExternalProps, CombinedState>((state, ext) => {
     return {
         traktData: state.trakt.results[ext.data.media.name],
-        isRequestingTrakt: state.trakt.isRequesting[ext.data.media.name]
+        isRequestingTrakt: state.trakt.isRequesting[ext.data.media.name],
     }
 }, (dispatch, ext) => {
     return {

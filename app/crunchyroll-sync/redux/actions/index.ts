@@ -13,7 +13,7 @@ function historyFetchError(err: Error): IAction {
     }
 }
 
-const recentlyWatchedApi = (session_id: string, limit: number) => `http://api.crunchyroll.com/recently_watched.0.json?session_id=${session_id}&limit=${limit}`;
+const recentlyWatchedApi = (session_id: string, limit: number) => `https://api.crunchyroll.com/recently_watched.0.json?session_id=${session_id}&limit=${limit}`;
 
 export function getCrunchyrollHistory() {
     return (dispatch: ThunkDispatch<any, any, IAction>, getState: () => CombinedState) => {
