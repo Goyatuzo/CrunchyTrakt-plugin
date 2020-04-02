@@ -15,16 +15,11 @@ class LoginButton extends React.Component {
 
 
     render() {
-        return (
-            <>
-                {
-                    this.context.loggedIn ?
-                        <button className="button is-primary" type="button" onClick={this.revokeOnClick}>Logout</button>
-                        :
-                        <button className="button is-primary" type="button" onClick={this.authorizeOnClick}>Login</button>
-                }
-            </>
-        )
+        if (this.context.loggedIn) {
+            return <button className="button is-primary" type="button" onClick={this.revokeOnClick}>Logout</button>
+        }
+        
+        return <button className="button is-primary" type="button" onClick={this.authorizeOnClick}>Login</button>
     }
 }
 

@@ -1,8 +1,12 @@
 import * as React from 'react';
 import { browser } from 'webextension-polyfill-ts';
+import AppStateContext from '../contexts/app-state';
 
-const SyncRedirect: React.StatelessComponent<{}> = _ => {
-    const onClick = async (_: React.MouseEvent<HTMLButtonElement>) => {
+class SyncRedirect extends React.Component {
+    static contextType = AppStateContext;
+    context!: React.ContextType<typeof AppStateContext>;
+
+    private onClick = async (_: React.MouseEvent<HTMLButtonElement>) => {
         const tabs = await browser.tabs.query({ url: `*://*.crunchyroll.com/*`, active: true });
 
         browser.tabs.create({
@@ -11,7 +15,12 @@ const SyncRedirect: React.StatelessComponent<{}> = _ => {
         });
     }
 
-    return <button className="button is-info is-light" type="button" onClick={onClick}>Go to Sync Page</button>
-}
+    render() {
+        if (this.context.loggedIn) {
+            return <button className="button is-info is-light" type="button" onClick={this.onClick}>Go to Sync Page</button>
+        }
 
+        return <p>Please log into Trakt by clicking the button above.</p>
+    }
+}
 export default SyncRedirect;
