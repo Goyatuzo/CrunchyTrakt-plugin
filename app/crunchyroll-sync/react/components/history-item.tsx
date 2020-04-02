@@ -36,7 +36,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
         </>
         // We are still waiting for a response
     } else if (props.isRequestingTrakt) {
-        TraktComponent = <div className="ui active centered inline loader"></div>;
+        TraktComponent = <progress className="progress is-small is-info" max="100">15%</progress>;
         // Couldn't find the data in Trakt.
     } else if (!props.isRequestingTrakt && !props.traktData) {
         TraktComponent = <>
