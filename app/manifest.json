@@ -9,7 +9,8 @@
     "identity",
     "storage",
     "cookies",
-    "*://*.crunchyroll.com/*"
+    "*://*.crunchyroll.com/*",
+    "*://*.trakt.tv/*"
   ],
   "page_action": {
     "default_icon": "images/icons/valid-site.svg",
