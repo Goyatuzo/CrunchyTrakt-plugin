@@ -54,3 +54,13 @@ export function getTraktHistoryFor(crunchy: Crunchyroll.HistoryItem) {
         }
     }
 }
+
+export function addTraktHistory(crunchyItem: Crunchyroll.HistoryItem, traktItem: Trakt.SearchResult) {
+    return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
+        dispatch({ type: ActionType.START_TRAKT_EPISODE_HISTORY_ADD });
+
+        TraktApi.addEpisodesToHistory([crunchyItem], [traktItem]).then(response => {
+            dispatch({ type: ActionType.SUCCESS_TRAKT_EPISODE_HISTORY_ADD });
+        });
+    }
+}

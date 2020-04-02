@@ -59,7 +59,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
             </div>
 
             <div className="content">
-                <SyncEpisodeToggle crunchyData={props.data} syncable={props.traktData !== undefined} />
+                <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} syncable={props.traktData !== undefined} />
             </div>
         </div>
     )

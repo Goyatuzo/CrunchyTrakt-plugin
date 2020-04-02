@@ -33,20 +33,23 @@ namespace Trakt {
 
     export type SearchType = 'movie' | 'show' | 'episode' | 'person' | 'list';
 
+    interface IdTypes {
+        trakt: number;
+        tvdb: number;
+        imdb?: string;
+    }
+
     interface BaseSearchResult {
         title: string;
         year: number;
-        ids: {
-            trakt: number;
-            slug: string;
-            imdb?: string;
-            tmdb?: string;
-        }
+        ids: IdTypes;
     }
 
-    export interface EpisodeSearchResult extends BaseSearchResult {
+    export interface EpisodeContent {
         season: number;
         number: number;
+        title: string;
+        ids: IdTypes;
     }
 
     export interface SearchResult {
@@ -54,7 +57,7 @@ namespace Trakt {
         score: number;
         movie?: BaseSearchResult;
         show?: BaseSearchResult;
-        episode?: EpisodeSearchResult;
+        episode?: EpisodeContent;
         person?: BaseSearchResult;
     }
 

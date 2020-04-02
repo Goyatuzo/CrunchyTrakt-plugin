@@ -18,6 +18,16 @@ export class TraktApiHandler {
         }
     };
 
+    private oAuthRequestConfig: () => Promise<AxiosRequestConfig> = async () => {
+        const token = await StorageWrap.getTokenData();
+
+        const baseConfig = { ...this.requestConfig.headers, 'Authorization': `Bearer ${token.access_token}` };
+
+        return {
+            headers: baseConfig
+        }
+    }
+
     async userLoggedIn(): Promise<boolean> {
         return await StorageWrap.getTokenData() !== undefined && StorageWrap.getTokenData() !== null;
     }
@@ -87,21 +97,23 @@ export class TraktApiHandler {
         return await axios.get<Trakt.SearchResult[]>(`${this.apiRoot}/search/${type.join(',')}?query=${query}`, this.requestConfig);
     }
 
-    public async getEpisodesFromHistory(traktData: Trakt.EpisodeSearchResult) {
+    public async getEpisodesFromHistory(traktData: Trakt.EpisodeContent) {
         return await axios.get<Trakt.ScrobbleHistory>(`${this.apiRoot}/sync/history/episode/${traktData.ids.trakt}`)
     }
 
-    public async addEpisodesToHistory(crunchyrollData: Crunchyroll.HistoryItem[], traktData: Trakt.EpisodeSearchResult[]) {
+    public async addEpisodesToHistory(crunchyrollData: Crunchyroll.HistoryItem[], traktData: Trakt.SearchResult[]) {
         const postData = crunchyrollData.map((crunchy, idx) => {
             return {
-                item: traktData[idx],
+                ...traktData[idx].episode,
                 watched_at: crunchy.timestamp
             }
-        })
+        });
+
+        console.log(postData);
 
         return await axios.post(`${this.apiRoot}/sync/history`, {
             episodes: postData
-        }, this.requestConfig);
+        }, await this.oAuthRequestConfig());
     }
 }
 

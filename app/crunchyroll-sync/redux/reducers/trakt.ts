@@ -49,6 +49,15 @@ export function reducer(state = defaultState, action: IAction) {
 
             return { ...state, historicScrobbles: currentHistory, isRequestingHistoricScrobbles: currentRequests };
         }
+
+        case ActionType.START_TRAKT_EPISODE_HISTORY_ADD: {
+            return state;
+        }
+
+        case ActionType.SUCCESS_TRAKT_EPISODE_HISTORY_ADD: {
+            return state;
+        }
+
         default:
             return state;
     }
