@@ -29,7 +29,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
     // If the trakt request returns data 
     if (!props.isRequestingTrakt && props.traktData) {
         TraktComponent = <>
-            <h3 className="header">{props.traktData?.episode.title}</h3>
+            <h3 className="header">Trakt: {props.traktData?.episode.title}</h3>
             <div className="description">
                 Season {props.traktData?.episode.season}, Episode {props.traktData?.episode.number}
             </div>

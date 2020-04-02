@@ -21,7 +21,7 @@ interface DispatchToProps {
 type SyncEpisodeToggleProps = ExternalProps & StateToProps & DispatchToProps;
 
 const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = props => {
-    function onClick(evt: React.ChangeEvent<HTMLInputElement>) {
+    function onChange(evt: React.ChangeEvent<HTMLInputElement>) {
         if (evt.currentTarget.checked)
             props.addToHistory();
     }
@@ -38,12 +38,16 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
 
     const syncedToTrakt = props.scrobbleData && props.traktData !== undefined;
 
-    return (
-        <label className="checkbox">
-            <input onChange={onClick} type="checkbox" name="newsletter" defaultChecked={syncedToTrakt} disabled={(props.traktData === undefined) || syncedToTrakt} />
-            {labelText()}
-        </label>
-    )
+    // Already synced
+    if (props.scrobbleData && props.traktData) {
+        return <button type="button" disabled={true} className='button is-light is-success'>Already Synced</button>
+    // Can be synced to Trakt
+    } else if (props.traktData && !props.scrobbleData) {
+        return <button type="button" onChange={onChange} className='button is-info'>Sync to Trakt</button>
+    // Not enough data to sync to trakt
+    } else {
+        return <button type="button" disabled={true} className='button is-warning'>Not Enough Data</button>
+    }
 }
 
 const SyncEpisodeToggle = connect<StateToProps, DispatchToProps, ExternalProps, CombinedState>((state, ext) => {
