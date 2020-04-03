@@ -3,19 +3,36 @@ import { IAction } from "../../../global/action";
 import { CombinedState } from "../reducers";
 import TraktApi from "../../../trakt/trakt-api";
 import { ActionType } from "../../../global/actiontype";
+import { AxiosResponse } from "axios";
+
+async function keepSearching(type: Trakt.SearchType[], query: Crunchyroll.HistoryItem) {
+    let page = 0;
+    let results = await TraktApi.search(type, query.media.name, page++);
+
+    // Keep checking while there are no matches, but results keep coming in
+    while (page < 20 && results?.data?.length > 0) {
+        results = await TraktApi.search(type, query.media.name, page++);
+
+        const seriesMatch = results.data.filter(data => query.series.name === data.show.title);
+
+        if (seriesMatch.length > 0) {
+            return seriesMatch[0];
+        }
+    }
+
+    return null;
+}
 
 export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.HistoryItem) {
     return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
         dispatch({ type: ActionType.REQUEST_TRAKT_SEARCH, value: query.media.name });
 
-        TraktApi.search(type, query.media.name).then(response => {
-            const seriesMatch = response.data.filter(data => query.series.name === data.show.title);
-
+        keepSearching(type, query).then(match => {
             dispatch({
                 type: ActionType.STORE_TRAKT_SEARCH,
                 value: {
                     key: query.media.name,
-                    value: seriesMatch[0]
+                    value: match
                 }
             });
 
