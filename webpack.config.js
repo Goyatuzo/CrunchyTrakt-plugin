@@ -8,6 +8,12 @@ if (process.env.NODE_ENV === 'production') {
     API_ROOT = 'https://api.trakt.tv';
 }
 
+const envVariables = {
+    'API_ROOT': JSON.stringify(API_ROOT),
+    'CLIENT_ID': JSON.stringify(process.env.CLIENT_ID ? process.env.CLIENT_ID : 'c4c79b5819a0efe568fea03f6dd8c579758e5878bd3622b3091ec9d39559f1f2'),
+    'CLIENT_SECRET': JSON.stringify(process.env.CLIENT_SECRET ? process.env.CLIENT_SECRET : '2f1a5a55b770dc988a9e91efcfd4fe638e341c108cfb0a92e5b7e8a069dd4439')
+}
+
 const outputLocation = {
     filename: "[name].js",
     path: path.join(__dirname, "app/dist")
@@ -37,9 +43,7 @@ module.exports = [
         },
 
         plugins: [
-            new webpack.DefinePlugin({
-                'API_ROOT': JSON.stringify(API_ROOT)
-            })
+            new webpack.DefinePlugin(envVariables)
         ]
     },
     {
@@ -65,9 +69,7 @@ module.exports = [
         },
 
         plugins: [
-            new webpack.DefinePlugin({
-                'API_ROOT': JSON.stringify(API_ROOT)
-            }),
+            new webpack.DefinePlugin(envVariables),
 
             new HtmlWebpackPlugin({
                 hash: true,
@@ -99,9 +101,7 @@ module.exports = [
         },
 
         plugins: [
-            new webpack.DefinePlugin({
-                'API_ROOT': JSON.stringify(API_ROOT)
-            }),
+            new webpack.DefinePlugin(envVariables),
 
             new HtmlWebpackPlugin({
                 hash: true,
