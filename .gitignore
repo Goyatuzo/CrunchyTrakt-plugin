@@ -13,3 +13,6 @@ app/dist
 
 # Visual Studio ignore.
 .vs
+app/Archive.zip
+
+.DS_Store

@@ -18,6 +18,16 @@ export class TraktApiHandler {
         }
     };
 
+    private oAuthRequestConfig: () => Promise<AxiosRequestConfig> = async () => {
+        const token = await StorageWrap.getTokenData();
+
+        const baseConfig = { ...this.requestConfig.headers, 'Authorization': `Bearer ${token.access_token}` };
+
+        return {
+            headers: baseConfig
+        }
+    }
+
     async userLoggedIn(): Promise<boolean> {
         return await StorageWrap.getTokenData() !== undefined && StorageWrap.getTokenData() !== null;
     }
@@ -76,6 +86,32 @@ export class TraktApiHandler {
         const response = await axios.post(`${this.apiRoot}/oauth/token`, parameters, this.requestConfig);
 
         StorageWrap.setTokenData(response.data);
+    }
+
+    /**
+     * Search Trakt for whatever is desired.
+     * @param type The type of media to be searched.
+     * @param query What is being searched.
+     */
+    public async search(type: Trakt.SearchType[], query: string, page?: number) {
+        return await axios.get<Trakt.SearchResult[]>(`${this.apiRoot}/search/${type.join(',')}?query=${query}&limit=10${page ? `&page=${page}` : ''}`, this.requestConfig);
+    }
+
+    public async getEpisodesFromHistory(traktData: Trakt.EpisodeContent) {
+        return await axios.get<Trakt.ScrobbleHistory[]>(`${this.apiRoot}/sync/history/episodes/${traktData.ids.trakt}`, await this.oAuthRequestConfig())
+    }
+
+    public async addEpisodesToHistory(crunchyrollData: Crunchyroll.HistoryItem[], traktData: Trakt.SearchResult[]) {
+        const postData = crunchyrollData.map((crunchy, idx) => {
+            return {
+                ...traktData[idx].episode,
+                watched_at: crunchy.timestamp
+            }
+        });
+
+        return await axios.post<Trakt.HistoryAddResponse>(`${this.apiRoot}/sync/history`, {
+            episodes: postData
+        }, await this.oAuthRequestConfig());
     }
 }
 
