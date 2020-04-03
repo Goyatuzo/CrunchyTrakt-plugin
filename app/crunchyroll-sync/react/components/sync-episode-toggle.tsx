@@ -13,6 +13,7 @@ interface StateToProps {
     alreadySynced: boolean;
     scrobbleData: Trakt.ScrobbleHistory;
     syncState: RequestState;
+    searchRequestState: RequestState
 }
 
 interface DispatchToProps {
@@ -30,8 +31,12 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
     // Already synced
     if ((props.scrobbleData && props.traktData) || props.syncState === RequestState.SUCCESS) {
         return <button type="button" disabled={true} className='button is-light is-success'>Already Synced</button>
-        // Can be synced to Trakt
-    } else if (props.traktData && !props.scrobbleData) {
+        // Requesting trakt
+    } else if (props.searchRequestState === RequestState.AWAITING) {
+        return <button type="button" className='button is-info' disabled={true}>Searching Trakt...</button>
+    }
+    // Can be synced to Trakt
+    else if (props.traktData && !props.scrobbleData) {
         return <button type="button" onClick={addToHistory} className='button is-info'>Sync to Trakt</button>
         // Not enough data to sync to trakt
     } else {
@@ -40,13 +45,14 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
 }
 
 const SyncEpisodeToggle = connect<StateToProps, DispatchToProps, ExternalProps, CombinedState>((state, ext) => {
-    const scrobbleList = state.trakt.historicScrobbles[ext.crunchyData.media.name];
+    const scrobbleList = state.trakt.historicScrobbles[ext.crunchyData.media.media_id];
     const comparisonDate = new Date(ext.crunchyData.timestamp).getTime();
 
     return {
         alreadySynced: scrobbleList !== undefined && scrobbleList.length > 0,
         scrobbleData: scrobbleList ? scrobbleList.filter(scrobble => new Date(scrobble.watched_at).getTime() === comparisonDate)[0] : null,
-        syncState: state.trakt.historyAddState[`${ext.crunchyData.media.media_id}${ext.crunchyData.timestamp}`]
+        syncState: state.trakt.historyAddState[`${ext.crunchyData.media.media_id}${ext.crunchyData.timestamp}`],
+        searchRequestState: state.trakt.isRequesting[ext.crunchyData.media.media_id]
     }
 }, (dispatch, ext) => {
     return {

@@ -4,7 +4,7 @@ import { RequestState } from "../../../classes/request-state";
 
 export interface TraktState {
     results: { [key: string]: Trakt.SearchResult };
-    isRequesting: { [key: string]: boolean };
+    isRequesting: { [key: string]: RequestState };
     historicScrobbles: { [key: string]: Trakt.ScrobbleHistory[] };
     isRequestingHistoricScrobbles: { [key: string]: boolean };
     historyAddState: { [key: string]: RequestState };
@@ -22,7 +22,7 @@ export function reducer(state = defaultState, action: IAction) {
     switch (action.type) {
         case ActionType.REQUEST_TRAKT_SEARCH: {
             let currentRequests = { ...state.isRequesting };
-            currentRequests[action.value] = true;
+            currentRequests[action.value] = RequestState.AWAITING;
 
             return { ...state, requesting: currentRequests };
         }
@@ -31,7 +31,7 @@ export function reducer(state = defaultState, action: IAction) {
             let currentRequests = { ...state.isRequesting };
 
             currentResults[action.value.key] = action.value.value;
-            currentRequests[action.value.key] = false;
+            currentRequests[action.value.key] = RequestState.SUCCESS;
 
             return { ...state, results: currentResults, isRequesting: currentRequests };
         }

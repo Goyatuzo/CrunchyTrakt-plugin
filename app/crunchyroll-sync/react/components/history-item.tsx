@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { CombinedState } from '../../redux/reducers';
 import { searchTraktFor } from '../../redux/actions';
 import SyncEpisodeToggle from './sync-episode-toggle';
+import { RequestState } from '../../../classes/request-state';
 
 interface ExternalProps {
     data: Crunchyroll.HistoryItem;
@@ -10,7 +11,7 @@ interface ExternalProps {
 
 interface StateToProps {
     traktData: Trakt.SearchResult;
-    isRequestingTrakt: boolean;
+    isRequestingTrakt: RequestState;
 }
 
 interface DispatchToProps {
@@ -27,7 +28,7 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
     let TraktComponent: JSX.Element = null
 
     // If the trakt request returns data 
-    if (!props.isRequestingTrakt && props.traktData) {
+    if (props.isRequestingTrakt === RequestState.SUCCESS && props.traktData) {
         TraktComponent = <>
             <h3 className="header">Trakt: {props.traktData?.episode.title}</h3>
             <div className="description">
@@ -35,10 +36,10 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
             </div>
         </>
         // We are still waiting for a response
-    } else if (props.isRequestingTrakt) {
+    } else if (props.isRequestingTrakt === RequestState.AWAITING) {
         TraktComponent = <progress className="progress is-small is-info" max="100">15%</progress>;
         // Couldn't find the data in Trakt.
-    } else if (!props.isRequestingTrakt && !props.traktData) {
+    } else if (props.isRequestingTrakt === RequestState.SUCCESS && !props.traktData) {
         TraktComponent = <>
             <h3 className="header">Could not find the Episode in Trakt</h3>
         </>
@@ -73,8 +74,8 @@ const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
 
 const HistoryItem = connect<StateToProps, DispatchToProps, ExternalProps, CombinedState>((state, ext) => {
     return {
-        traktData: state.trakt.results[ext.data.media.name],
-        isRequestingTrakt: state.trakt.isRequesting[ext.data.media.name],
+        traktData: state.trakt.results[ext.data.media.media_id],
+        isRequestingTrakt: state.trakt.isRequesting[ext.data.media.media_id],
     }
 }, (dispatch, ext) => {
     return {

@@ -25,13 +25,13 @@ async function keepSearching(type: Trakt.SearchType[], query: Crunchyroll.Histor
 
 export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.HistoryItem) {
     return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
-        dispatch({ type: ActionType.REQUEST_TRAKT_SEARCH, value: query.media.name });
+        dispatch({ type: ActionType.REQUEST_TRAKT_SEARCH, value: query.media.media_id });
 
         keepSearching(type, query).then(match => {
             dispatch({
                 type: ActionType.STORE_TRAKT_SEARCH,
                 value: {
-                    key: query.media.name,
+                    key: query.media.media_id,
                     value: match
                 }
             });
@@ -43,7 +43,7 @@ export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.Hist
 
 export function getTraktHistoryFor(crunchy: Crunchyroll.HistoryItem) {
     return (dispatch: ThunkDispatch<any, any, IAction>, getState: () => CombinedState) => {
-        const key = crunchy.media.name;
+        const key = crunchy.media.media_id;
 
         dispatch({
             type: ActionType.REQUEST_TRAKT_EPISODE_HISTORY,
@@ -57,8 +57,8 @@ export function getTraktHistoryFor(crunchy: Crunchyroll.HistoryItem) {
 
         const state = getState();
 
-        if (state.trakt.results[crunchy.media.name]) {
-            const trakt = state.trakt.results[crunchy.media.name];
+        if (state.trakt.results[crunchy.media.media_id]) {
+            const trakt = state.trakt.results[crunchy.media.media_id];
 
             TraktApi.getEpisodesFromHistory(trakt.episode).then(response => {
                 dispatch({
