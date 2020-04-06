@@ -8,6 +8,7 @@ export interface TraktState {
     historicScrobbles: { [key: string]: Trakt.ScrobbleHistory[] };
     isRequestingHistoricScrobbles: { [key: string]: boolean };
     historyAddState: { [key: string]: RequestState };
+    isLoggedIn: boolean;
 }
 
 const defaultState: TraktState = {
@@ -15,7 +16,8 @@ const defaultState: TraktState = {
     isRequesting: {},
     historicScrobbles: {},
     isRequestingHistoricScrobbles: {},
-    historyAddState: {}
+    historyAddState: {},
+    isLoggedIn: false
 }
 
 export function reducer(state = defaultState, action: IAction) {
@@ -72,6 +74,14 @@ export function reducer(state = defaultState, action: IAction) {
             currentHistoryAddState[action.value] = RequestState.FAILURE;
 
             return { ...state, historyAddState: currentHistoryAddState };
+        }
+
+        case ActionType.TRAKT_USER_LOGGED_IN: {
+            return { ...state, isLoggedIn: true };
+        }
+
+        case ActionType.TRAKT_USER_LOGGED_OUT: {
+            return { ...state, isLoggedIn: false };
         }
 
         default:

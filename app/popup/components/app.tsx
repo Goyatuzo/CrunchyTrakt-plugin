@@ -20,7 +20,7 @@ export class App extends React.Component<unknown, IAppStateContext> {
                 this.setState({ loggedIn: false })
             },
             login: () => {
-                TraktApi.authorize();
+                TraktApi.authorize()
                 this.setState({ loggedIn: true })
             },
             beingPlayed: null
@@ -39,10 +39,6 @@ export class App extends React.Component<unknown, IAppStateContext> {
         return (
             <AppStateContext.Provider value={this.state}>
                 <section className="section">
-                    <div className="container">
-                        <Login />
-                    </div>
-
                     <div className="container">
                         <SyncRedirect />
                     </div>
