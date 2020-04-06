@@ -29,10 +29,10 @@ const TraktLoginComponentComp: React.StatelessComponent<TraktLoginProps> = props
 
 
     if (props.isLoggedIn) {
-        return <button className="button is-primary" type="button" onClick={logoutStep}>Logout</button>
+        return <button className="button is-light" type="button" onClick={logoutStep}>Logout</button>
     }
 
-    return <button className="button is-primary" type="button" onClick={loginStep}>Log into Trakt</button>
+    return <button className="button is-warning" type="button" onClick={loginStep}>Log into Trakt</button>
 }
 
 

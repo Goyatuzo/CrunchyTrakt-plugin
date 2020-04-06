@@ -4,6 +4,7 @@ import { CombinedState } from "../reducers";
 import TraktApi from "../../../trakt/trakt-api";
 import { ActionType } from "../../../global/actiontype";
 import { AxiosResponse } from "axios";
+import StorageWrap from "../../../storage";
 
 async function keepSearching(type: Trakt.SearchType[], query: Crunchyroll.HistoryItem) {
     let page = 0;
@@ -104,5 +105,19 @@ export function logoutOfTrakt() {
         TraktApi.revokeToken().then(_ => {
             dispatch({ type: ActionType.TRAKT_USER_LOGGED_OUT })
         });
+    }
+}
+
+export function checkLogin() {
+    return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
+        StorageWrap.getTokenData().then(token => {
+            if (token) {
+                dispatch({ type: ActionType.TRAKT_USER_LOGGED_IN });
+            } else {
+                dispatch({ type: ActionType.TRAKT_USER_LOGGED_OUT })
+            }
+        }).catch(err => {
+            dispatch({ type: ActionType.TRAKT_USER_LOGGED_OUT })
+        })
     }
 }
