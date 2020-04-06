@@ -90,3 +90,19 @@ export function addTraktHistory(crunchyItem: Crunchyroll.HistoryItem, traktItem:
         });
     }
 }
+
+export function loginToTrakt() {
+    return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
+        TraktApi.authorize().then(_ => {
+            dispatch({ type: ActionType.TRAKT_USER_LOGGED_IN })
+        });
+    }
+}
+
+export function logoutOfTrakt() {
+    return (dispatch: ThunkDispatch<any, any, IAction>, _: () => CombinedState) => {
+        TraktApi.revokeToken().then(_ => {
+            dispatch({ type: ActionType.TRAKT_USER_LOGGED_OUT })
+        });
+    }
+}
