@@ -1,6 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 let envVariables = {
     'API_ROOT': JSON.stringify('https://api-staging.trakt.tv'),
@@ -19,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const outputLocation = {
     filename: "[name].js",
-    path: path.join(__dirname, "app/dist")
+    path: path.join(__dirname, "dist")
 };
 
 module.exports = [
@@ -46,7 +47,12 @@ module.exports = [
         },
 
         plugins: [
-            new webpack.DefinePlugin(envVariables)
+            new webpack.DefinePlugin(envVariables),
+
+            new CopyPlugin([{
+                from: path.join(__dirname, 'app/images'),
+                to: path.join(__dirname, 'dist')
+            }])
         ]
     },
     {

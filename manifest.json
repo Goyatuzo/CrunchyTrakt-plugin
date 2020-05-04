@@ -13,7 +13,7 @@
     "*://*.trakt.tv/*"
   ],
   "page_action": {
-    "default_icon": "images/icons/valid-site.svg",
+    "default_icon": "dist/images/icons/valid-site.svg",
     "default_popup": "dist/index.html"
   },
   "background": {
