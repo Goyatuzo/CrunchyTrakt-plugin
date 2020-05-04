@@ -10,6 +10,7 @@ node_modules
 
 # Ignore all bundled files.
 app/dist
+dist
 
 # Visual Studio ignore.
 .vs

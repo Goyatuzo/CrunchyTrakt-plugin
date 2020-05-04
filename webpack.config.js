@@ -50,7 +50,8 @@ module.exports = [
             new webpack.DefinePlugin(envVariables),
 
             new CopyPlugin([{
-                from: path.join(__dirname, 'app/images'),
+                context: path.join(__dirname, 'app'),
+                from: './images/**/*',
                 to: path.join(__dirname, 'dist')
             }])
         ]
