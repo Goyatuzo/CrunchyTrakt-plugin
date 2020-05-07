@@ -9,7 +9,7 @@ class SyncRedirect extends React.Component {
     private onClick = async (_: React.MouseEvent<HTMLButtonElement>) => {
         browser.tabs.create({
             index: 0,
-            url: browser.runtime.getURL('dist/crunchyroll-sync/index.html')
+            url: browser.runtime.getURL('crunchyroll-sync/index.html')
         });
     }
 
