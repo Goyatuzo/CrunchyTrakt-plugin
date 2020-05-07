@@ -53,6 +53,12 @@ module.exports = [
                 context: path.join(__dirname, 'app'),
                 from: './images/**/*',
                 to: path.join(__dirname, 'dist')
+            }]),
+
+            new CopyPlugin([{
+                context: path.join(__dirname),
+                from: './manifest.json',
+                to: path.join(__dirname, 'dist')
             }])
         ]
     },
