@@ -3,7 +3,7 @@ declare const API_ROOT: string;
 import axios, { AxiosRequestConfig } from 'axios';
 import VideoInfo from '../classes/video-info';
 import { traktCredentials } from '../credentials';
-import { browser } from 'webextension-polyfill-ts';
+import { browser, Identity } from 'webextension-polyfill-ts';
 import StorageWrap from '../storage';
 
 export class TraktApiHandler {
@@ -39,9 +39,10 @@ export class TraktApiHandler {
         const authRoot = this.apiRoot.replace('api-', '');
 
         const authFlowOpts = {
-            url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURIComponent(this.redirectUrl)}&response_type=code`,
+            url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}&response_type=code`,
             interactive: true
         };
+        
         let redirectURL = await browser.identity.launchWebAuthFlow(authFlowOpts);
 
         this.getAccessToken(redirectURL);
