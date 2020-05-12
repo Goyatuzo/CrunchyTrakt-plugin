@@ -14,7 +14,7 @@ async function keepSearching(type: Trakt.SearchType[], query: Crunchyroll.Histor
     while (page < 20 && results?.data?.length > 0) {
         results = await TraktApi.search(type, query.media.name, page++);
 
-        const seriesMatch = results.data.filter(data => query.series.name === data.show.title);
+        const seriesMatch = results.data.filter(data => query.series.name.toUpperCase() === data.show.title.toUpperCase());
 
         if (seriesMatch.length > 0) {
             return seriesMatch[0];
