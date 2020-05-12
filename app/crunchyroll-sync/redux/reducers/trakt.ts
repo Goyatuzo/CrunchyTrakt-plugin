@@ -38,6 +38,13 @@ export function reducer(state = defaultState, action: IAction): TraktState {
             return { ...state, results: currentResults, isRequesting: currentRequests };
         }
 
+        case ActionType.ZERO_RESULTS_TRAKT_SEARCH: {
+            let currentRequests = { ...state.isRequesting };
+            currentRequests[action.value] = RequestState.NO_RESULTS;
+
+            return { ...state, isRequesting: currentRequests };
+        }
+
         case ActionType.REQUEST_TRAKT_EPISODE_HISTORY: {
             let currentRequests = { ...state.isRequestingHistoricScrobbles };
             currentRequests[action.value] = true;

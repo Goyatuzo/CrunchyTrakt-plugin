@@ -40,6 +40,8 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
     else if (props.traktData && !props.scrobbleData) {
         return <button type="button" onClick={addToHistory} className='button is-info'>Sync to Trakt</button>
         // Not enough data to sync to trakt
+    } else if (props.searchRequestState === RequestState.NO_RESULTS) {
+        return <button type="button" disabled={true} className='button is-warning'>Could not find in Trakt</button>
     } else {
         return <button type="button" disabled={true} className='button is-warning'>Not Enough Data</button>
     }

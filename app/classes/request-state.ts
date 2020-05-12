@@ -1,5 +1,6 @@
 export enum RequestState {
     SUCCESS,
     FAILURE,
-    AWAITING
+    AWAITING,
+    NO_RESULTS
 }

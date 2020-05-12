@@ -29,15 +29,21 @@ export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.Hist
         dispatch({ type: ActionType.REQUEST_TRAKT_SEARCH, value: query.media.media_id });
 
         keepSearching(type, query).then(match => {
-            dispatch({
-                type: ActionType.STORE_TRAKT_SEARCH,
-                value: {
-                    key: query.media.media_id,
-                    value: match
-                }
-            });
+            if (!match) {
+                dispatch({
+                    type: ActionType.ZERO_RESULTS_TRAKT_SEARCH
+                })
+            } else {
+                dispatch({
+                    type: ActionType.STORE_TRAKT_SEARCH,
+                    value: {
+                        key: query.media.media_id,
+                        value: match
+                    }
+                });
 
-            dispatch(getTraktHistoryFor(query));
+                dispatch(getTraktHistoryFor(query));
+            }
         })
     }
 }

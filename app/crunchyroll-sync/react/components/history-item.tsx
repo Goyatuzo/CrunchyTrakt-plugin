@@ -20,56 +20,60 @@ interface DispatchToProps {
 
 type HistoryItemProps = ExternalProps & StateToProps & DispatchToProps;
 
-const HistoryItemComp: React.StatelessComponent<HistoryItemProps> = props => {
-    if (props.data.media && !props.traktData) {
-        props.requestTrakt(['episode'])
+class HistoryItemComp extends React.Component<HistoryItemProps> {
+
+
+    componentDidMount() {
+        this.props.requestTrakt(['episode'])
     }
 
-    let TraktComponent: JSX.Element = null
+    render() {
+        let TraktComponent: JSX.Element = null
 
-    // If the trakt request returns data 
-    if (props.isRequestingTrakt === RequestState.SUCCESS && props.traktData) {
-        TraktComponent = <>
-            <h3 className="header">Trakt: {props.traktData?.episode.title}</h3>
-            <div className="description">
-                Season {props.traktData?.episode.season}, Episode {props.traktData?.episode.number}
-            </div>
-        </>
-        // We are still waiting for a response
-    } else if (props.isRequestingTrakt === RequestState.AWAITING) {
-        TraktComponent = <progress className="progress is-small is-info" max="100">15%</progress>;
-        // Couldn't find the data in Trakt.
-    } else if (props.isRequestingTrakt === RequestState.SUCCESS && !props.traktData) {
-        TraktComponent = <>
-            <h3 className="header">Could not find the Episode in Trakt</h3>
-        </>
-    }
-
-    return (
-        <div className="box">
-            <article className="media">
-                <div className="media-left">
-                    <figure className="image">
-                        <img src={props.data.media.screenshot_image.thumb_url} />
-                    </figure>
+        // If the trakt request returns data 
+        if (this.props.isRequestingTrakt === RequestState.SUCCESS && this.props.traktData) {
+            TraktComponent = <>
+                <h3 className="header">Trakt: {this.props.traktData?.episode.title}</h3>
+                <div className="description">
+                    Season {this.props.traktData?.episode.season}, Episode {this.props.traktData?.episode.number}
                 </div>
-                <div className="media-content">
-                    <div className="content">
-                        <h3 className="header">{props.data.media.name}</h3>
-                        <div className="description">
-                            Season {parseInt(props.data.collection.season)}, Episode {props.data.media.episode_number}
-                        </div>
+            </>
+            // We are still waiting for a response
+        } else if (this.props.isRequestingTrakt === RequestState.AWAITING) {
+            TraktComponent = <progress className="progress is-small is-info" max="100">15%</progress>;
+            // Couldn't find the data in Trakt.
+        } else if (this.props.isRequestingTrakt === RequestState.NO_RESULTS) {
+            TraktComponent = <>
+                <h3 className="header">Could not find the Episode in Trakt</h3>
+            </>
+        }
 
-                        {TraktComponent}
+        return (
+            <div className="box">
+                <article className="media">
+                    <div className="media-left">
+                        <figure className="image">
+                            <img src={this.props.data.media.screenshot_image.thumb_url} />
+                        </figure>
                     </div>
-                </div>
+                    <div className="media-content">
+                        <div className="content">
+                            <h3 className="header">{this.props.data.media.name}</h3>
+                            <div className="description">
+                                Season {parseInt(this.props.data.collection.season)}, Episode {this.props.data.media.episode_number}
+                            </div>
 
-                <div className="media-right">
-                    <SyncEpisodeToggle crunchyData={props.data} traktData={props.traktData} />
-                </div>
-            </article>
-        </div>
-    )
+                            {TraktComponent}
+                        </div>
+                    </div>
+
+                    <div className="media-right">
+                        <SyncEpisodeToggle crunchyData={this.props.data} traktData={this.props.traktData} />
+                    </div>
+                </article>
+            </div>
+        )
+    }
 }
 
 const HistoryItem = connect<StateToProps, DispatchToProps, ExternalProps, CombinedState>((state, ext) => {
