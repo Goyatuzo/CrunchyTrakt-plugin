@@ -28,12 +28,13 @@ const SyncEpisodeToggleComp: React.StatelessComponent<SyncEpisodeToggleProps> = 
         props.addToHistory();
     }
 
+    // Searching
+    if (props.searchRequestState === RequestState.AWAITING) {
+        return <button type="button" className='button is-info' disabled={true}>Searching Trakt...</button>
+    }
     // Already synced
     if ((props.scrobbleData && props.traktData) || props.syncState === RequestState.SUCCESS) {
         return <button type="button" disabled={true} className='button is-light is-success'>Already Synced</button>
-        // Requesting trakt
-    } else if (props.searchRequestState === RequestState.AWAITING) {
-        return <button type="button" className='button is-info' disabled={true}>Searching Trakt...</button>
     }
     // Can be synced to Trakt
     else if (props.traktData && !props.scrobbleData) {

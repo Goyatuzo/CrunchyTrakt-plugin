@@ -20,13 +20,13 @@ const defaultState: TraktState = {
     isLoggedIn: false
 }
 
-export function reducer(state = defaultState, action: IAction) {
+export function reducer(state = defaultState, action: IAction): TraktState {
     switch (action.type) {
         case ActionType.REQUEST_TRAKT_SEARCH: {
             let currentRequests = { ...state.isRequesting };
             currentRequests[action.value] = RequestState.AWAITING;
 
-            return { ...state, requesting: currentRequests };
+            return { ...state, isRequesting: currentRequests };
         }
         case ActionType.STORE_TRAKT_SEARCH: {
             let currentResults = { ...state.results };
