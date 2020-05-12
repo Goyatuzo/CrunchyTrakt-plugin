@@ -8,8 +8,8 @@ import StorageWrap from '../storage';
 
 export class TraktApiHandler {
     private apiRoot: string = API_ROOT;
-    // private redirectUrl: string = `https://${browser.runtime.id}.extensions.allizom.org`;
-    private redirectUrl: string = 'https://27243ddae08af693cee0f2c5c2ee711b4b50e8f5.extensions.allizom.org';
+    private redirectUrl: string = browser.identity.getRedirectURL();
+    // private redirectUrl: string = 'https://27243ddae08af693cee0f2c5c2ee711b4b50e8f5.extensions.allizom.org';
     private requestConfig: AxiosRequestConfig = {
         headers: {
             'trakt-api-key': traktCredentials.clientId,
@@ -39,10 +39,10 @@ export class TraktApiHandler {
         const authRoot = this.apiRoot.replace('api-', '');
 
         const authFlowOpts = {
-            url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURIComponent(browser.identity.getRedirectURL())}&response_type=code`,
+            url: `${authRoot}/oauth/authorize?client_id=${traktCredentials.clientId}&redirect_uri=${encodeURIComponent(this.redirectUrl)}&response_type=code`,
             interactive: true
         };
-        
+
         let redirectURL = await browser.identity.launchWebAuthFlow(authFlowOpts);
 
         this.getAccessToken(redirectURL);
