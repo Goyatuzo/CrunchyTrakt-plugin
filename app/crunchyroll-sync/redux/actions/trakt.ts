@@ -31,8 +31,9 @@ export function searchTraktFor(type: Trakt.SearchType[], query: Crunchyroll.Hist
         keepSearching(type, query).then(match => {
             if (!match) {
                 dispatch({
-                    type: ActionType.ZERO_RESULTS_TRAKT_SEARCH
-                })
+                    type: ActionType.ZERO_RESULTS_TRAKT_SEARCH,
+                    value: query.media.media_id
+                });
             } else {
                 dispatch({
                     type: ActionType.STORE_TRAKT_SEARCH,
